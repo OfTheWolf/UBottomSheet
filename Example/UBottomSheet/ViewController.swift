@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  UBottomSheet
 //
-//  Created by OfTheWolf on 09/20/2019.
+//  Created by OfTheWolf on 09/19/2019.
 //  Copyright (c) 2019 OfTheWolf. All rights reserved.
 //
 
@@ -12,13 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        
+        //Create a view controller that inherits BottomSheetController and attach to the current viewcontroller
+        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
+        //Add bottom sheet to the current viewcontroller
+        vc.attach(to: self)
+        
+//        //Remove sheet from the current viewcontroller
+//        vc.detach()
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
 }
 
