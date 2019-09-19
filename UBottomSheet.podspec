@@ -28,7 +28,7 @@ Bottom sheet that mimics the behaviours and UI of iPhone Maps app.
   s.source           = { :git => 'https://github.com/OfTheWolf/UBottomSheet.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'UBottomSheet/Classes/**/*'
   

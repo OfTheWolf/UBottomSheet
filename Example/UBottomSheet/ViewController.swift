@@ -12,7 +12,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        
+        //Create a view controller that inherits BottomSheetController and attach to the current viewcontroller
+        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
+        //Add bottom sheet to the current viewcontroller
+        vc.attach(to: self)
+        
+//        //Remove sheet from the current viewcontroller
+//        vc.detach()
+        
     }
 
 
