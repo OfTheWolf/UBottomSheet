@@ -15,7 +15,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 Create a view controller that inherits BottomSheetController. Configure the following parameters according to your needs.
 
-```ruby
+```swift
 class MapsDemoBottomSheetController: BottomSheetController{
     
     //MARK: BottomSheetController configurations
@@ -44,7 +44,7 @@ class MapsDemoBottomSheetController: BottomSheetController{
 
 Attach to the parent view controller
 
-```ruby
+```swift
 let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
       
         //Add bottom sheet to the current viewcontroller
