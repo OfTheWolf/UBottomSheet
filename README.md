@@ -1,5 +1,6 @@
 # UBottomSheet
 
+[![Language](https://img.shields.io/badge/language-swift%205-brightgreen)](https://cocoapods.org/pods/UBottomSheet)
 [![Version](https://img.shields.io/cocoapods/v/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
 [![License](https://img.shields.io/cocoapods/l/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
 [![Platform](https://img.shields.io/cocoapods/p/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
@@ -67,6 +68,10 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod 'UBottomSheet'
 ```
+
+## See Also
+
+[TwitterProfile](https://github.com/OfTheWolf/TwitterProfile) Nested scroll view behaviour of Twitter Profile screen.
 
 ## Author
 
