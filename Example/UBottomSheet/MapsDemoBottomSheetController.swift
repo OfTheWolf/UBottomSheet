@@ -12,6 +12,10 @@ import UBottomSheet
 class MapsDemoBottomSheetController: BottomSheetController{
     
     //MARK: BottomSheetController configurations
+//    override var initialPosition: SheetPosition {
+//        return .middle
+//    }
+        
 //    override var topYPercentage: CGFloat
     
 //    override var bottomYPercentage: CGFloat
@@ -22,10 +26,19 @@ class MapsDemoBottomSheetController: BottomSheetController{
     
 //    override var topInset: CGFloat
     
+//    Don't override if not necessary as it is auto-detected
+//    override var scrollView: UIScrollView?{
+//        return put_your_tableView, collectionView, etc.
+//    }
+    
 //    //Override this to apply custom animations
 //    override func animate(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
 //        UIView.animate(withDuration: 0.3, animations: animations)
 //    }
+    
+//    To change sheet position manually
+//    call ´changePosition(to: .top)´ anywhere in the code
+
 }
 
 extension MapsDemoBottomSheetController: UITableViewDelegate, UITableViewDataSource{

@@ -8,26 +8,42 @@
 
 import UIKit
 
-enum SheetLevel{
+public enum SheetPosition{
     case top, bottom, middle
 }
 
 open class BottomSheetController: UIViewController {
     
+    // initial positon of the bottom sheet
+    //SheetPosition.top, SheetPosition.middle, SheetPosition.bottom
+    open var initialPosition: SheetPosition{
+        return .middle
+    }
+    
     //1 : full height, 0 : minimum height default is 1
-    open var topYPercentage: CGFloat = 1
+    open var topYPercentage: CGFloat{
+        return 1
+    }
     
     //1 : full height, 0 : minimum height default is 0.5
-    open var middleYPercentage: CGFloat = 0.5
+    open var middleYPercentage: CGFloat{
+        return 0.5
+    }
     
     //1 : full height, 0 : minimum height default is 0.1
-    open var bottomYPercentage: CGFloat = 0.1
+    open var bottomYPercentage: CGFloat{
+        return 0.1
+    }
     
     //using superview bottom inset is recommended default is 0
-    open var bottomInset: CGFloat = 0
+    open var bottomInset: CGFloat{
+        return 0
+    }
     
     //using safe area top inset is recommended default is 80
-    open var topInset: CGFloat = 80
+    open var topInset: CGFloat {
+        return 80
+    }
     
     
     var topY: CGFloat{
@@ -51,9 +67,7 @@ open class BottomSheetController: UIViewController {
     var pan: UIPanGestureRecognizer!
     
     var parentView: UIView!
-    
-    var lastPosition: SheetLevel = .middle
-    
+        
     var fullHeight: CGFloat{
         return (parent?.view.frame.height ?? UIScreen.main.bounds.height) - topInset - bottomInset
     }
@@ -66,7 +80,13 @@ open class BottomSheetController: UIViewController {
     var listItems: [Any] = []
     var headerItems: [Any] = []
     
-    open var scrollView: UIScrollView?
+    open var scrollView: UIScrollView?{
+        return autoDetectedScrollView
+    }
+    
+    var autoDetectedScrollView: UIScrollView?
+    
+    var didLayoutOnce = false
     
     func findScrollView(from view: UIView) -> UIView?{
         return view.ub_firstSubView(ofType: UIScrollView.self)
@@ -86,6 +106,11 @@ open class BottomSheetController: UIViewController {
     override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         panView.frame = containerView.bounds
+        
+        if !didLayoutOnce{
+            didLayoutOnce = true
+            snapTo(position: self.initialPosition)
+        }
     }
     
     func addObserver(){
@@ -93,8 +118,8 @@ open class BottomSheetController: UIViewController {
     }
     
     func setupGestures(){
-        if scrollView == nil{
-            scrollView = findScrollView(from: self.view) as? UIScrollView
+        if autoDetectedScrollView == nil{
+            autoDetectedScrollView = findScrollView(from: self.view) as? UIScrollView
         }
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         self.view.addGestureRecognizer(pan)
@@ -109,6 +134,10 @@ open class BottomSheetController: UIViewController {
         }
     }
     
+    public func changePosition(to position: SheetPosition){
+        snapTo(position: position)
+    }
+    
     @objc func handlePan(_ recognizer: UIPanGestureRecognizer){
         
         switch recognizer.state {
@@ -116,7 +145,7 @@ open class BottomSheetController: UIViewController {
         case .changed:
             dragView(recognizer)
         default:
-            snapTo(level: nextLevel(recognizer: recognizer))
+            snapTo(position: nextLevel(recognizer: recognizer))
         }
         
     }
@@ -149,7 +178,7 @@ open class BottomSheetController: UIViewController {
                 lastOffset = scrollView!.contentOffset
             }
         default:
-            snapTo(level: nextLevel(recognizer: recognizer))
+            snapTo(position: nextLevel(recognizer: recognizer))
         }
     }
     
@@ -168,20 +197,17 @@ open class BottomSheetController: UIViewController {
         return CGRect(x: f.minX, y: minY, width: f.width, height: h)
     }
     
-    func snapTo(level: SheetLevel){
-         let f = containerView.frame
+    func snapTo(position: SheetPosition){
+        let f = self.containerView.frame == .zero ? self.view.frame : self.containerView.frame
         var minY = topY
         
-        switch level {
+        switch position {
         case .top:
             minY = topY
-            lastPosition = .top
         case .middle:
             minY = middleY
-            lastPosition = .middle
         case .bottom:
             minY = bottomY
-            lastPosition = .bottom
         }
         
         guard minY != f.minY else{return}
@@ -205,7 +231,7 @@ open class BottomSheetController: UIViewController {
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: .curveEaseOut, animations: animations, completion: completion)
     }
     
-    func nextLevel(recognizer: UIPanGestureRecognizer) -> SheetLevel{
+    func nextLevel(recognizer: UIPanGestureRecognizer) -> SheetPosition{
         let y = self.containerView.frame.minY
         let velY = recognizer.velocity(in: self.view).y
         if velY < -150{
@@ -226,8 +252,9 @@ extension BottomSheetController: Pannable{
 
     public func attach(to parent: UIViewController) {
         parent.ub_add(self, in: containerView)
-
-        containerView.edges([.left, .right, .top, .bottom], to: parent.view, offset: .zero)
+        parent.ub_add(self, in: containerView) { (view) in
+            view.edges([.left, .right, .top, .bottom], to: parent.view, offset: .zero)
+        }
         
         topConstraint = parent.view.constraints.first { (c) -> Bool in
             c.firstItem as? UIView == self.containerView && c.firstAttribute == .top
@@ -238,7 +265,7 @@ extension BottomSheetController: Pannable{
         }
         
         bottomConstraint?.constant = -bottomInset
-        
+                
     }
     
     public func detach() {

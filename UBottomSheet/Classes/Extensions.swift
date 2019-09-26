@@ -9,10 +9,11 @@
 import UIKit
 
 extension UIViewController {
-    func ub_add(_ child: UIViewController, in _view: UIView? = nil) {
+    func ub_add(_ child: UIViewController, in _view: UIView? = nil, setupConstraints: ((UIView)->Void)? = nil){
         addChild(child)
         if let v = _view{
             view.addSubview(v)
+            setupConstraints?(v)
             v.addSubview(child.view)
         }else{
             view.addSubview(child.view)
