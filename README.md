@@ -19,27 +19,33 @@ Create a view controller that inherits BottomSheetController. Configure the foll
 ```swift
 class MapsDemoBottomSheetController: BottomSheetController{
     
-    //MARK: BottomSheetController configurations
-//    override var topYPercentage: CGFloat
-    
-//    override var bottomYPercentage: CGFloat
-    
-//    override var middleYPercentage: CGFloat
-    
-//    override var bottomInset: CGFloat
-    
-//    override var topInset: CGFloat
-
-//    //scrollView is automatically detected but if you have nested scrolls it may be detected wrong. 
-//    //override this ONLY if your scroll doesn't drive the sheet.
-//    override var scrollView: UIScrollView?{
-//        return replace_with_your_scrollview
-//    }
-    
-//    //Override this to apply custom animations
-//    override func animate(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-//        UIView.animate(withDuration: 0.3, animations: animations)
-//    }
+        //MARK: BottomSheetController configurations
+    //    override var initialPosition: SheetPosition {
+    //        return .middle
+    //    }
+            
+    //    override var topYPercentage: CGFloat
+        
+    //    override var bottomYPercentage: CGFloat
+        
+    //    override var middleYPercentage: CGFloat
+        
+    //    override var bottomInset: CGFloat
+        
+    //    override var topInset: CGFloat
+        
+    //    Don't override if not necessary as it is auto-detected
+    //    override var scrollView: UIScrollView?{
+    //        return put_your_tableView, collectionView, etc.
+    //    }
+        
+    //    //Override this to apply custom animations
+    //    override func animate(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+    //        UIView.animate(withDuration: 0.3, animations: animations)
+    //    }
+        
+    //    To change sheet position manually
+    //    call ´changePosition(to: .top)´ anywhere in the code
 }
 ```
 
