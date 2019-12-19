@@ -39,6 +39,11 @@ class MapsDemoBottomSheetController: BottomSheetController{
 //    To change sheet position manually
 //    call ´changePosition(to: .top)´ anywhere in the code
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
+    }
+
 }
 
 extension MapsDemoBottomSheetController: UITableViewDelegate, UITableViewDataSource{
@@ -56,4 +61,15 @@ extension MapsDemoBottomSheetController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
     }
+}
+
+//UIViewController Extensions
+extension UIViewController {
+   
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        view.layer.mask = mask
+   }
 }

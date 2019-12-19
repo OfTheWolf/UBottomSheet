@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C5EE0C623AC2A71007BCD8E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C5EE0BE23AC266F007BCD8E /* MapKit.framework */; };
+		0C5EE0C923AC2A73007BCD8E /* Pods_UBottomSheet_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D125A804B73380CFBD7B2D7 /* Pods_UBottomSheet_Example.framework */; };
 		0CC171432334257C002A02FD /* MapsDemoBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171402334257C002A02FD /* MapsDemoBottomSheetController.swift */; };
 		0CC171442334257C002A02FD /* SimpleTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171412334257C002A02FD /* SimpleTableCell.swift */; };
 		0CC171452334257C002A02FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171422334257C002A02FD /* ViewController.swift */; };
@@ -16,7 +18,6 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		9154C05A64B5C9E77645C45F /* Pods_UBottomSheet_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8F40260C8386FAAC4247AE5 /* Pods_UBottomSheet_Tests.framework */; };
-		C3527B90E310385C58FDFD59 /* Pods_UBottomSheet_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D125A804B73380CFBD7B2D7 /* Pods_UBottomSheet_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C5EE0BE23AC266F007BCD8E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0CC171402334257C002A02FD /* MapsDemoBottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsDemoBottomSheetController.swift; sourceTree = "<group>"; };
 		0CC171412334257C002A02FD /* SimpleTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableCell.swift; sourceTree = "<group>"; };
 		0CC171422334257C002A02FD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3527B90E310385C58FDFD59 /* Pods_UBottomSheet_Example.framework in Frameworks */,
+				0C5EE0C923AC2A73007BCD8E /* Pods_UBottomSheet_Example.framework in Frameworks */,
+				0C5EE0C623AC2A71007BCD8E /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +162,7 @@
 		7582E6DEC2574155337C8AC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C5EE0BE23AC266F007BCD8E /* MapKit.framework */,
 				6D125A804B73380CFBD7B2D7 /* Pods_UBottomSheet_Example.framework */,
 				D8F40260C8386FAAC4247AE5 /* Pods_UBottomSheet_Tests.framework */,
 			);
@@ -218,10 +222,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = MNQ5D2G6V5;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = MNQ5D2G6V5;
 						LastSwiftMigration = 1030;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -485,6 +491,7 @@
 			baseConfigurationReference = D5B83859FF07DAEB4793E78B /* Pods-UBottomSheet_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MNQ5D2G6V5;
 				INFOPLIST_FILE = UBottomSheet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -499,6 +506,7 @@
 			baseConfigurationReference = 4E980B1CC97C3CFCFF0A9FB0 /* Pods-UBottomSheet_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MNQ5D2G6V5;
 				INFOPLIST_FILE = UBottomSheet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -512,6 +520,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 919640B9A4E82E2806B18464 /* Pods-UBottomSheet_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = MNQ5D2G6V5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -533,6 +542,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7FCDDA678886307523738BF2 /* Pods-UBottomSheet_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = MNQ5D2G6V5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

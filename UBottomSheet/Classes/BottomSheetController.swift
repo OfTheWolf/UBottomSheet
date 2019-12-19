@@ -265,11 +265,11 @@ extension BottomSheetController: Pannable{
         }
         
         bottomConstraint?.constant = -bottomInset
-                
     }
     
     public func detach() {
         self.ub_remove()
+        self.containerView.removeFromSuperview()
     }
     
 }

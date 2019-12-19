@@ -23,7 +23,7 @@ class SimpleTableCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        leftImageView.tintColor = UIColor.red
     }
     
     func configure(model: SimpleTableCellViewModel){
