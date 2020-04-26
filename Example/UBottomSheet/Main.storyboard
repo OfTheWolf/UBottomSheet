@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="n72-Sj-gZf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n72-Sj-gZf">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,12 +22,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="bRK-eG-2K4" firstAttribute="leading" secondItem="7Eq-w4-4yO" secondAttribute="leading" id="JHz-4T-XQx"/>
-                            <constraint firstItem="bRK-eG-2K4" firstAttribute="top" secondItem="7Eq-w4-4yO" secondAttribute="top" id="f5M-e8-TJU"/>
-                            <constraint firstItem="7Eq-w4-4yO" firstAttribute="bottom" secondItem="bRK-eG-2K4" secondAttribute="bottom" id="ob6-M4-V5i"/>
-                            <constraint firstItem="7Eq-w4-4yO" firstAttribute="trailing" secondItem="bRK-eG-2K4" secondAttribute="trailing" id="tVj-OQ-m9O"/>
+                            <constraint firstItem="bRK-eG-2K4" firstAttribute="leading" secondItem="xNF-h7-TgR" secondAttribute="leading" id="JHz-4T-XQx"/>
+                            <constraint firstItem="bRK-eG-2K4" firstAttribute="top" secondItem="xNF-h7-TgR" secondAttribute="top" id="f5M-e8-TJU"/>
+                            <constraint firstItem="xNF-h7-TgR" firstAttribute="bottom" secondItem="bRK-eG-2K4" secondAttribute="bottom" id="ob6-M4-V5i"/>
+                            <constraint firstItem="xNF-h7-TgR" firstAttribute="trailing" secondItem="bRK-eG-2K4" secondAttribute="trailing" id="tVj-OQ-m9O"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="7Eq-w4-4yO"/>
+                        <viewLayoutGuide key="safeArea" id="xNF-h7-TgR"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="huZ-M2-1LN" sceneMemberID="firstResponder"/>
@@ -72,7 +72,7 @@
                                         </searchBar>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vyr-Zh-jty">
                                             <rect key="frame" x="0.0" y="62" width="375" height="605"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SimpleTableCell" rowHeight="107" id="3St-Zk-9tz" customClass="SimpleTableCell" customModule="UBottomSheet_Example" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="28" width="375" height="107"/>
@@ -124,10 +124,6 @@
                                                     </connections>
                                                 </tableViewCell>
                                             </prototypes>
-                                            <connections>
-                                                <outlet property="dataSource" destination="7Ba-1E-E5E" id="r7x-bu-y8f"/>
-                                                <outlet property="delegate" destination="7Ba-1E-E5E" id="wIA-h6-O33"/>
-                                            </connections>
                                         </tableView>
                                     </subviews>
                                     <constraints>
@@ -146,13 +142,16 @@
                             </visualEffectView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="gir-of-62U" firstAttribute="top" secondItem="faD-Bp-hbY" secondAttribute="top" id="CKt-40-WWA"/>
-                            <constraint firstItem="faD-Bp-hbY" firstAttribute="bottom" secondItem="gir-of-62U" secondAttribute="bottom" id="POo-gy-Mcb"/>
-                            <constraint firstItem="gir-of-62U" firstAttribute="leading" secondItem="faD-Bp-hbY" secondAttribute="leading" id="ucp-ok-zHa"/>
-                            <constraint firstItem="faD-Bp-hbY" firstAttribute="trailing" secondItem="gir-of-62U" secondAttribute="trailing" id="ujs-uX-nN1"/>
+                            <constraint firstItem="gir-of-62U" firstAttribute="top" secondItem="Hmv-5F-l1z" secondAttribute="top" id="CKt-40-WWA"/>
+                            <constraint firstAttribute="bottom" secondItem="gir-of-62U" secondAttribute="bottom" id="POo-gy-Mcb"/>
+                            <constraint firstItem="gir-of-62U" firstAttribute="leading" secondItem="r3u-hT-gpF" secondAttribute="leading" id="ucp-ok-zHa"/>
+                            <constraint firstItem="r3u-hT-gpF" firstAttribute="trailing" secondItem="gir-of-62U" secondAttribute="trailing" id="ujs-uX-nN1"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="faD-Bp-hbY"/>
+                        <viewLayoutGuide key="safeArea" id="r3u-hT-gpF"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="vyr-Zh-jty" id="4Ve-V0-xxc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lgB-Ji-XEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C5EE0C623AC2A71007BCD8E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C5EE0BE23AC266F007BCD8E /* MapKit.framework */; };
 		0C5EE0C923AC2A73007BCD8E /* Pods_UBottomSheet_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D125A804B73380CFBD7B2D7 /* Pods_UBottomSheet_Example.framework */; };
-		0CC171432334257C002A02FD /* MapsDemoBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171402334257C002A02FD /* MapsDemoBottomSheetController.swift */; };
+		0CA1808C245377CF00C6CBDE /* MapsDemoBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */; };
 		0CC171442334257C002A02FD /* SimpleTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171412334257C002A02FD /* SimpleTableCell.swift */; };
 		0CC171452334257C002A02FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171422334257C002A02FD /* ViewController.swift */; };
 		0CC1714723342585002A02FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CC1714623342585002A02FD /* Main.storyboard */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		0C5EE0BE23AC266F007BCD8E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		0CC171402334257C002A02FD /* MapsDemoBottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsDemoBottomSheetController.swift; sourceTree = "<group>"; };
+		0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsDemoBottomSheetController.swift; sourceTree = "<group>"; };
 		0CC171412334257C002A02FD /* SimpleTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableCell.swift; sourceTree = "<group>"; };
 		0CC171422334257C002A02FD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0CC1714623342585002A02FD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -102,8 +102,8 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0CC171422334257C002A02FD /* ViewController.swift */,
-				0CC171402334257C002A02FD /* MapsDemoBottomSheetController.swift */,
 				0CC171412334257C002A02FD /* SimpleTableCell.swift */,
+				0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */,
 				0CC17148233425AA002A02FD /* Images.xcassets */,
 				0CC1714623342585002A02FD /* Main.storyboard */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -342,9 +342,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CC171432334257C002A02FD /* MapsDemoBottomSheetController.swift in Sources */,
 				0CC171442334257C002A02FD /* SimpleTableCell.swift in Sources */,
 				0CC171452334257C002A02FD /* ViewController.swift in Sources */,
+				0CA1808C245377CF00C6CBDE /* MapsDemoBottomSheetController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

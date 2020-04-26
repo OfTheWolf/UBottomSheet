@@ -9,42 +9,27 @@
 import UIKit
 import UBottomSheet
 
-class MapsDemoBottomSheetController: BottomSheetController{
+class MapsDemoBottomSheetController: UIViewController{
+    @IBOutlet weak var tableView: UITableView!
     
-    //MARK: BottomSheetController configurations
-//    override var initialPosition: SheetPosition {
-//        return .middle
-//    }
-        
-//    override var topYPercentage: CGFloat
-    
-//    override var bottomYPercentage: CGFloat
-    
-//    override var middleYPercentage: CGFloat
-    
-//    override var bottomInset: CGFloat
-    
-//    override var topInset: CGFloat
-    
-//    Don't override if not necessary as it is auto-detected
-//    override var scrollView: UIScrollView?{
-//        return put_your_tableView, collectionView, etc.
-//    }
-    
-//    //Override this to apply custom animations
-//    override func animate(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-//        UIView.animate(withDuration: 0.3, animations: animations)
-//    }
-    
-//    To change sheet position manually
-//    call ´changePosition(to: .top)´ anywhere in the code
-
+    var sheetCoordinator: UBottomSheetCoordinator?
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.roundCorners(corners: [.topLeft, .topRight], radius: 12)
+        sheetCoordinator?.startTracking(item: self)
+        
+        tableView.dataSource = self
     }
 
 }
+
+extension MapsDemoBottomSheetController: Draggable{
+    
+    func draggableView() -> UIScrollView? {
+        return tableView
+    }
+}
+
 
 extension MapsDemoBottomSheetController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,15 +46,4 @@ extension MapsDemoBottomSheetController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
     }
-}
-
-//UIViewController Extensions
-extension UIViewController {
-   
-    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        view.layer.mask = mask
-   }
 }

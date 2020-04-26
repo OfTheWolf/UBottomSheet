@@ -8,71 +8,49 @@
 
 import UIKit
 
-extension UIViewController {
-    func ub_add(_ child: UIViewController, in _view: UIView? = nil, setupConstraints: ((UIView)->Void)? = nil){
+@nonobjc extension UIViewController {
+    func ub_add(_ child: UIViewController, in container: UIView, animated: Bool = true) {
         addChild(child)
-        if let v = _view{
-            view.addSubview(v)
-            setupConstraints?(v)
-            v.addSubview(child.view)
-        }else{
-            view.addSubview(child.view)
-        }
+        container.addSubview(child.view)
         child.didMove(toParent: self)
-    }
-    
-    func ub_remove() {
-        // Just to be safe, we check that this view controller
-        // is actually added to a parent before removing it.
-        guard parent != nil else {
-            return
-        }
+        child.view.pinToEdges(to: container)
+//        if animated{
+//            child.view.frame = container.bounds.offsetBy(dx: 0, dy: container.bounds.height)
+//            UIView.animate(withDuration: 0.3) {
+//                child.view.frame = container.bounds
+//            }
+//        }else{
+//            child.view.frame = container.bounds
+//        }
         
+    }
+
+    func ub_remove() {
         willMove(toParent: nil)
         view.removeFromSuperview()
         removeFromParent()
     }
+
 }
 
-extension UIView {
+extension UIView{
+    func pinToEdges(to view: UIView){
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        self.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
     
-    func ub_firstSubView<T: UIView>(ofType type: T.Type) -> T? {
-        var resultView: T?
-        for view in subviews {
-            if let view = view as? T {
-                resultView = view
-                break
-            }
-            else {
-                if let foundView = view.ub_firstSubView(ofType: T.self) {
-                    resultView = foundView
-                    break
-                }
-            }
-        }
-        return resultView
+    func constraint(_ parent: UIViewController, for attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint?{
+        return parent.view.constraints.first(where: { (c) -> Bool in
+             c.firstItem as? UIView == self && c.firstAttribute == attribute
+         })
     }
 }
 
-
-extension UIView {
-    
-    func edges(_ edges: UIRectEdge, to view: UIView, offset: UIEdgeInsets) {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        if edges.contains(.top) || edges.contains(.all) {
-            self.topAnchor.constraint(equalTo: view.topAnchor, constant: offset.top).isActive = true
-        }
-        
-        if edges.contains(.bottom) || edges.contains(.all) {
-            self.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: offset.bottom).isActive = true
-        }
-        
-        if edges.contains(.left) || edges.contains(.all) {
-            self.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: offset.left).isActive = true
-        }
-        
-        if edges.contains(.right) || edges.contains(.all) {
-            self.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: offset.right).isActive = true
-        }
+extension Array where Element == CGFloat{
+    func nearest(to x: CGFloat) -> CGFloat{
+        return self.reduce(self.first!) { abs($1 - x) < abs($0 - x) ? $1 : $0 }
     }
 }
