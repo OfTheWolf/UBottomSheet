@@ -13,15 +13,19 @@ import UIKit
         addChild(child)
         container.addSubview(child.view)
         child.didMove(toParent: self)
-        child.view.pinToEdges(to: container)
-//        if animated{
-//            child.view.frame = container.bounds.offsetBy(dx: 0, dy: container.bounds.height)
-//            UIView.animate(withDuration: 0.3) {
-//                child.view.frame = container.bounds
-//            }
-//        }else{
-//            child.view.frame = container.bounds
-//        }
+        let minY = sheetPositions(view.frame.height).min() ?? 0
+        let f = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: view.frame.maxY - minY)
+        if animated{
+            container.frame = f.offsetBy(dx: 0, dy: f.height)
+            child.view.frame = container.bounds
+            UIView.animate(withDuration: 0.3, animations: {
+                container.frame = f
+            }) { (_) in
+                self.view.layoutIfNeeded()
+            }
+        }else{
+            child.view.pinToEdges(to: container)
+        }
         
     }
 
@@ -34,12 +38,12 @@ import UIKit
 }
 
 extension UIView{
-    func pinToEdges(to view: UIView){
+    func pinToEdges(to view: UIView, insets: UIEdgeInsets = .zero){
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        self.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        self.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        self.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        self.topAnchor.constraint(equalTo: view.topAnchor, constant: insets.top).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom).isActive = true
+        self.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets.left).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right).isActive = true
     }
     
     func constraint(_ parent: UIViewController, for attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint?{

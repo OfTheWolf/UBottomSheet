@@ -14,6 +14,10 @@
 		0CC171452334257C002A02FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC171422334257C002A02FD /* ViewController.swift */; };
 		0CC1714723342585002A02FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CC1714623342585002A02FD /* Main.storyboard */; };
 		0CC17149233425AB002A02FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CC17148233425AA002A02FD /* Images.xcassets */; };
+		0CDF2F67245638B100AAE66E /* SimpleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF2F66245638B100AAE66E /* SimpleCollectionCell.swift */; };
+		0CDF2F69245638C700AAE66E /* EmbeddedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF2F68245638C700AAE66E /* EmbeddedCell.swift */; };
+		0CDF2F6C245647ED00AAE66E /* LabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF2F6A245647ED00AAE66E /* LabelViewController.swift */; };
+		0CDF2F6D245647ED00AAE66E /* LabelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF2F6B245647ED00AAE66E /* LabelViewController.xib */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
@@ -37,6 +41,10 @@
 		0CC171422334257C002A02FD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0CC1714623342585002A02FD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0CC17148233425AA002A02FD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0CDF2F66245638B100AAE66E /* SimpleCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCollectionCell.swift; sourceTree = "<group>"; };
+		0CDF2F68245638C700AAE66E /* EmbeddedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedCell.swift; sourceTree = "<group>"; };
+		0CDF2F6A245647ED00AAE66E /* LabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelViewController.swift; sourceTree = "<group>"; };
+		0CDF2F6B245647ED00AAE66E /* LabelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelViewController.xib; sourceTree = "<group>"; };
 		4E980B1CC97C3CFCFF0A9FB0 /* Pods-UBottomSheet_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UBottomSheet_Example.release.xcconfig"; path = "Target Support Files/Pods-UBottomSheet_Example/Pods-UBottomSheet_Example.release.xcconfig"; sourceTree = "<group>"; };
 		5D316F3B7AE3074480477D40 /* UBottomSheet.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = UBottomSheet.podspec; path = ../UBottomSheet.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* UBottomSheet_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UBottomSheet_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,9 +111,13 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0CC171422334257C002A02FD /* ViewController.swift */,
 				0CC171412334257C002A02FD /* SimpleTableCell.swift */,
+				0CDF2F68245638C700AAE66E /* EmbeddedCell.swift */,
+				0CDF2F66245638B100AAE66E /* SimpleCollectionCell.swift */,
 				0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */,
 				0CC17148233425AA002A02FD /* Images.xcassets */,
 				0CC1714623342585002A02FD /* Main.storyboard */,
+				0CDF2F6A245647ED00AAE66E /* LabelViewController.swift */,
+				0CDF2F6B245647ED00AAE66E /* LabelViewController.xib */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
@@ -260,6 +272,7 @@
 				0CC17149233425AB002A02FD /* Images.xcassets in Resources */,
 				0CC1714723342585002A02FD /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				0CDF2F6D245647ED00AAE66E /* LabelViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +359,9 @@
 				0CC171452334257C002A02FD /* ViewController.swift in Sources */,
 				0CA1808C245377CF00C6CBDE /* MapsDemoBottomSheetController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				0CDF2F6C245647ED00AAE66E /* LabelViewController.swift in Sources */,
+				0CDF2F67245638B100AAE66E /* SimpleCollectionCell.swift in Sources */,
+				0CDF2F69245638C700AAE66E /* EmbeddedCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

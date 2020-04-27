@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'UBottomSheet'
-  s.version          = '0.2.0'
+  s.version          = '1.0.0'
   s.summary          = 'Mimics the iPhone Maps App bottom sheet'
   s.swift_version    = '5.0'
   
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  'Bottom sheet that mimics the behaviours and UI of iPhone Maps app.'
+  'Bottom sheet that mimics the behaviours of iPhone Maps app.'
                        DESC
 
   s.homepage         = 'https://github.com/OfTheWolf/UBottomSheet'

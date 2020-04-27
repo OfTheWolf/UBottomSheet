@@ -14,52 +14,43 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-Create a view controller that inherits BottomSheetController. Configure the following parameters according to your needs.
+Bottom sheet chiild view controllers must conform to the Draggable protocol.
 
 ```swift
-class MapsDemoBottomSheetController: BottomSheetController{
+class MapsDemoBottomSheetController: UIViewController, Draggable{
+    @IBOutlet weak var tableView: UITableView!
     
-        //MARK: BottomSheetController configurations
-    //    override var initialPosition: SheetPosition {
-    //        return .middle
-    //    }
-            
-    //    override var topYPercentage: CGFloat
+    var sheetCoordinator: UBottomSheetCoordinator? 
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-    //    override var bottomYPercentage: CGFloat
+        //adds pan gesture recognizer to draggableView()
+        sheetCoordinator?.startTracking(item: self)
         
-    //    override var middleYPercentage: CGFloat
-        
-    //    override var bottomInset: CGFloat
-        
-    //    override var topInset: CGFloat
-        
-    //    Don't override if not necessary as it is auto-detected
-    //    override var scrollView: UIScrollView?{
-    //        return put_your_tableView, collectionView, etc.
-    //    }
-        
-    //    //Override this to apply custom animations
-    //    override func animate(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-    //        UIView.animate(withDuration: 0.3, animations: animations)
-    //    }
-        
-    //    To change sheet position manually
-    //    call ´changePosition(to: .top)´ anywhere in the code
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+
+    func draggableView() -> UIScrollView? {
+        return tableView
+    }
 }
+
 ```
 
-Attach to the parent view controller
+Create a UBottomSheetCoordinator from the main view controller. Use the UBottomSheetCoordinator to add and configure the sheet.
 
 ```swift
-let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
-      
-        //Add bottom sheet to the current viewcontroller
-        vc.attach(to: self)
 
-//      //Remove sheet from the current viewcontroller
-//      vc.detach()
+// parentViewController: main view controller that presents the bottom sheet
+let sheetCoordinator = UBottomSheetCoordinator(parent: parentViewController)
 
+let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
+
+vc.sheetCoordinator = sheetCoordinator
+
+sheetCoordinator.addSheet(vc, to: parentViewController)
 ```
 
 

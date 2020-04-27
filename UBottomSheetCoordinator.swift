@@ -9,24 +9,32 @@
 import UIKit
 
 public enum SheetTranslationState{
-    case changing(_ minYPosition: CGFloat, _ percent: CGFloat) //currently updating
+    case progressing(_ minYPosition: CGFloat, _ percent: CGFloat) //currently updating
     case willFinish(_ minYPosition: CGFloat, _ percent: CGFloat) //animatiion start
     case finished(_ minYPosition: CGFloat, _ percent: CGFloat) //animation end
 }
 
 public class UBottomSheetCoordinator {
-    private weak var parent: UIViewController!
+    public weak var parent: UIViewController!
     private var container: UIView?
-    public var backView: PassThroughView?
     private weak var dataSource: UBottomSheetCoordinatorDataSource!
     private weak var delegate: UBottomSheetCoordinatorDelegate?
-    private var showBackDimmingView = false
     private var minSheetPosition: CGFloat?
     private var maxSheetPosition: CGFloat?
+    ///View controllers which conform to Draggable protocol
     private var draggables: [DraggableItem] = []
+    ///Drop shadow view behind container.
+    private var dropShadowView: PassThroughView?
 
     public var availableHeight: CGFloat{
         return parent.view.frame.height
+    }
+    
+    private var cornerRadius: CGFloat = 0{
+        didSet{
+            applyDefaultShadowParams()
+            clearShadowBackground()
+        }
     }
 
     /**
@@ -34,13 +42,11 @@ public class UBottomSheetCoordinator {
      
      - parameter parent: UIViewController
      - parameter delegate: UBottomSheetCoordinatorDelegate
-     - parameter showBackDimmingView: pass true to show dimming background view; otherwise pass false. Default is false.
      */
-    public init(parent: UIViewController, delegate: UBottomSheetCoordinatorDelegate? = nil, showBackDimmingView: Bool = false) {
+    public init(parent: UIViewController, delegate: UBottomSheetCoordinatorDelegate? = nil) {
         self.parent = parent
         self.dataSource = parent
         self.delegate = delegate
-        self.showBackDimmingView = showBackDimmingView
         
         minSheetPosition = dataSource.sheetPositions(availableHeight).min()
         maxSheetPosition = dataSource.sheetPositions(availableHeight).max()
@@ -84,7 +90,6 @@ public class UBottomSheetCoordinator {
         config(view)
         container?.pinToEdges(to: parent.view)
         container?.constraint(parent, for: .top)?.constant = dataSource.sheetPositions(availableHeight)[0]
-        addBackDimmingViewIfNeeded()
         setPosition(dataSource.initialPosition(availableHeight), animated: false)
     }
     
@@ -112,15 +117,14 @@ public class UBottomSheetCoordinator {
     public func addSheet(_ item: DraggableItem, to parent: UIViewController, didContainerCreate: ((UIView)->Void)? = nil){
         let container = PassThroughView()
         self.container = container
-        didContainerCreate?(container)
         parent.view.addSubview(container)
         parent.ub_add(item, in: container)
+        didContainerCreate?(container)
         container.translatesAutoresizingMaskIntoConstraints = true
         let y = dataSource.sheetPositions(availableHeight)[0]
         container.frame = CGRect(x: 0, y: y, width: parent.view.frame.width, height: parent.view.frame.height - y)
 //        container.pinToEdges(to: parent.view)
 //        container.constraint(parent, for: .top)?.constant = dataSource.sheetPositions(availableHeight)[0]
-        addBackDimmingViewIfNeeded()
         setPosition(dataSource.initialPosition(availableHeight), animated: false)
     }
     
@@ -133,30 +137,45 @@ public class UBottomSheetCoordinator {
         parent?.ub_add(item, in: container!)
     }
     
+    public func addDropShadowIfNotExist(_ config: ((UIView)->Void)? = nil){
+        guard self.dropShadowView == nil else {return}
+        self.dropShadowView = PassThroughView()
+        parent.view.insertSubview(dropShadowView!, belowSubview: container!)
+        self.dropShadowView?.pinToEdges(to: container!, insets: UIEdgeInsets(top: -container!.frame.minY, left: 0, bottom: 0, right: 0))
+        self.dropShadowView?.layer.masksToBounds = false
+        if config == nil{
+            applyDefaultShadowParams()
+            clearShadowBackground()
+        }else{
+            config?(dropShadowView!)
+        }
+    }
+    
+    private func applyDefaultShadowParams(){
+        dropShadowView?.layer.shadowPath = UIBezierPath(roundedRect: container!.frame, cornerRadius: cornerRadius).cgPath
+        dropShadowView?.layer.shadowColor = UIColor.black.cgColor
+        dropShadowView?.layer.shadowRadius = CGFloat.init(10)
+        dropShadowView?.layer.shadowOpacity = Float.init(0.5)
+        dropShadowView?.layer.shadowOffset = CGSize.init(width: 0.0, height: 4.0)
+    }
+    
+    private func clearShadowBackground(){
+        let p = CGMutablePath()
+        p.addRect(parent.view.bounds)
+        p.addPath(UIBezierPath(roundedRect: container!.frame, cornerRadius: cornerRadius).cgPath)
+        let mask = CAShapeLayer()
+        mask.path = p
+        mask.fillRule = .evenOdd
+        dropShadowView?.layer.mask = mask
+    }
+    
     /**
-     Adjust backView and container vertical offset according to the cornerradius
+     Adjust drop shadow corner radius if exists.
      
      - parameter radius: corner radius
      */
     public func setCornerRadius(_ radius: CGFloat){
-        backView?.constraint(parent, for: .bottom)?.constant = radius
-    }
-    
-    /**
-     Adds dimming background view to the parent if showBackDimmingView sets true
-     */
-    public func addBackDimmingViewIfNeeded(){
-        guard showBackDimmingView else {
-            return
-        }
-        backView = PassThroughView()
-        parent.view.insertSubview(backView!, belowSubview: container!)
-        backView!.translatesAutoresizingMaskIntoConstraints = false
-        backView!.topAnchor.constraint(equalTo: parent.view.topAnchor).isActive = true
-        backView!.bottomAnchor.constraint(equalTo: container!.topAnchor, constant: 0).isActive = true
-        backView!.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor).isActive = true
-        backView!.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor).isActive = true
-        delegate?.bottomSheet(container, didCreateBackView: backView!)
+        self.cornerRadius = radius
     }
     
     /**
@@ -199,18 +218,16 @@ public class UBottomSheetCoordinator {
      
      - parameter block: use this closure to apply custom sheet dismissal animation
      */
-    public func removeSheet(_ block: ((_ container: UIView?, _ backView: UIView?)->Void)? = nil){
+    public func removeSheet(_ block: ((_ container: UIView?)->Void)? = nil){
         self.draggables.removeAll()
         
         if block != nil{
-            block?(container, backView)
+            block?(container)
         }else{
             UIView.animate(withDuration: 0.3, animations: {[weak self] in
                 guard let sSelf = self else {return}
-                sSelf.backView?.alpha = 0
                 sSelf.container!.frame = sSelf.container!.frame.offsetBy(dx: 0, dy:  sSelf.parent.view.frame.height)
             }) {[weak self]  (finished) in
-                self?.backView?.removeFromSuperview()
                 self?.container?.removeFromSuperview()
             }
         }
@@ -276,30 +293,41 @@ public class UBottomSheetCoordinator {
             totalTranslationMaxY = maxSheetPosition!
         case .changed:
             if let scroll = scrollView{
-                if vel.y < 0 { //dragging up
-                    if container!.frame.minY - minSheetPosition! > 0.001{
-                        translate(dy: dy - lastY)
-                        scroll.contentOffset.y = lastContentOffset.y
-                    }
-                }else{
-                    if scroll.contentOffset.y <= 0 && !scroll.isDecelerating{
-                        translate(dy: dy - lastY)
-                        scroll.contentOffset.y = 0
-                    }
+                switch dragDirection(vel) {
+                case .up where (container!.frame.minY - minSheetPosition! > 0.001):
+                    translate(dy: dy - lastY)
+                    scroll.contentOffset.y = lastContentOffset.y
+                case .down where scroll.contentOffset.y <= 0 && !scroll.isDecelerating:
+                    translate(dy: dy - lastY)
+                    scroll.contentOffset.y = 0
+                default:
+                    break
                 }
+//                if vel.y < 0 /*dragging up*/ && (container!.frame.minY - minSheetPosition! > 0.001){
+//                    translate(dy: dy - lastY)
+//                    scroll.contentOffset.y = lastContentOffset.y
+//                }else if vel.y > 0 /*dragging down*/ && scroll.contentOffset.y <= 0 && !scroll.isDecelerating{
+//                    translate(dy: dy - lastY)
+//                    scroll.contentOffset.y = 0
+//                }
             }else{
                 translate(dy: dy)
             }
         case .ended, .cancelled, .failed:
-            if let scroll = scrollView, let minY = container?.frame.minY{
-                if minY - minSheetPosition! > 0.001 && minY - maxSheetPosition! < -0.001{
+            if let scroll = scrollView{
+                let minY = container!.frame.minY
+                switch dragDirection(vel) {
+                case .up where minY - minSheetPosition! > 0.001:
                     scroll.setContentOffset(lastContentOffset, animated: false)
                     self.finishDragging(with: vel)
+                default:
+                    if !isSheetPosition(minY){
+                        self.finishDragging(with: vel)
+                    }
                 }
             }else{
                 self.finishDragging(with: vel)
             }
-
         default: break
         }
         
@@ -308,6 +336,37 @@ public class UBottomSheetCoordinator {
             lastContentOffset = scroll.contentOffset
         }else{
             recognizer.setTranslation(.zero, in: recognizer.view)
+        }
+    }
+    
+    /**
+     Check if current top y position is one of the UBottomSheetCoordinatorDataSource#sheetPositions(availableHeight)
+     
+     - parameter point: current top y position
+     */
+    private func isSheetPosition(_ point: CGFloat) -> Bool{
+        return dataSource.sheetPositions(availableHeight).first(where: { (p) -> Bool in
+            abs(p - point) < 0.001
+        }) != nil
+    }
+    
+    /// Scroll view pan direction state: up, down or idle
+    private enum DraggingState{
+        case up, down, idle
+    }
+    
+    /**
+     Find the scroll pan direction; dragging up or down.
+     
+     - parameter velocity: draging velocity of scroll view recognizer
+     */
+    private func dragDirection(_ velocity: CGPoint) -> DraggingState{
+        if velocity.y < 0 {
+            return .up
+        }else if velocity.y > 0{
+            return .down
+        }else{
+            return .idle
         }
     }
     
@@ -377,7 +436,7 @@ public class UBottomSheetCoordinator {
         let f = CGRect(x: 0, y: newY, width: oldFrame.width, height: height)
         container?.frame = f
 
-        self.delegate?.bottomSheet(self.container, didChange: .changing(f.minY, calculatePercent(at: f.minY)))
+        self.delegate?.bottomSheet(self.container, didChange: .progressing(f.minY, calculatePercent(at: f.minY)))
     }
     
     /**
@@ -419,6 +478,9 @@ public class UBottomSheetCoordinator {
             }, completion: { finished in
                 if self.lastAnimatedValue != position {return}
                 self.delegate?.bottomSheet(self.container, didChange: .finished(position, self.calculatePercent(at: position)))
+                if position >= self.availableHeight{
+                    self.removeSheet()
+                }
             })
         }else{
             self.container!.frame = f

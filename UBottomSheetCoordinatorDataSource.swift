@@ -25,7 +25,7 @@ public protocol UBottomSheetCoordinatorDataSource: class {
 ///Default data source implementation
 extension UBottomSheetCoordinatorDataSource{
     public func sheetPositions(_ availableHeight: CGFloat) -> [CGFloat]{
-        return [availableHeight*0.2, availableHeight*0.8]
+        return [0.2, 0.7].map{$0*availableHeight}
     }
     
     public var animator: Animatable?{
