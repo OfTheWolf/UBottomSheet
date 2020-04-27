@@ -118,7 +118,7 @@ public class UBottomSheetCoordinator {
         let container = PassThroughView()
         self.container = container
         parent.view.addSubview(container)
-        parent.ub_add(item, in: container)
+        parent.ub_add(item, in: container, topInset: dataSource.sheetPositions(availableHeight).min()!)
         didContainerCreate?(container)
         container.translatesAutoresizingMaskIntoConstraints = true
         let y = dataSource.sheetPositions(availableHeight)[0]
@@ -134,7 +134,7 @@ public class UBottomSheetCoordinator {
      - parameter item: view controller which conforms to the Draggable protocol
      */
     public func addSheetChild(_ item: DraggableItem){
-        parent?.ub_add(item, in: container!)
+        parent?.ub_add(item, in: container!, topInset: dataSource.sheetPositions(availableHeight).min()!)
     }
     
     public func addDropShadowIfNotExist(_ config: ((UIView)->Void)? = nil){
