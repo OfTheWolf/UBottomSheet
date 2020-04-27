@@ -13,7 +13,7 @@ import UIKit
         addChild(child)
         container.addSubview(child.view)
         child.didMove(toParent: self)
-        let minY = sheetPositions(view.frame.height).min() ?? 0
+        let minY = (self as UBottomSheetCoordinatorDataSource).sheetPositions(view.frame.height).min() ?? 0
         let f = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: view.frame.maxY - minY)
         if animated{
             container.frame = f.offsetBy(dx: 0, dy: f.height)
