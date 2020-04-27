@@ -8,12 +8,12 @@
 
 import UIKit
 
-@nonobjc extension UIViewController {
+extension UBottomSheetCoordinatorDataSource where Self: UIViewController {
     func ub_add(_ child: UIViewController, in container: UIView, animated: Bool = true) {
         addChild(child)
         container.addSubview(child.view)
         child.didMove(toParent: self)
-        let minY = (self as UBottomSheetCoordinatorDataSource).sheetPositions(view.frame.height).min() ?? 0
+        let minY = self.sheetPositions(view.frame.height).min() ?? 0
         let f = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: view.frame.maxY - minY)
         if animated{
             container.frame = f.offsetBy(dx: 0, dy: f.height)
