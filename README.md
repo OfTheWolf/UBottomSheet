@@ -1,7 +1,5 @@
 <p><img src="https://github.com/OfTheWolf/UBottomSheet/blob/master/Logo.png" alt="Next Level" style="max-width:100%;"></p>
 
-# UBottomSheet
-
 [![Language](https://img.shields.io/badge/language-swift%205-brightgreen)](https://cocoapods.org/pods/UBottomSheet)
 [![Version](https://img.shields.io/cocoapods/v/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
 [![License](https://img.shields.io/cocoapods/l/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
