@@ -1,9 +1,11 @@
-<p><img src="https://github.com/OfTheWolf/UBottomSheet/blob/master/Logo.png" alt="Next Level" style="max-width:100%;"></p>
+<p align="center"><img src="https://github.com/OfTheWolf/UBottomSheet/blob/master/Logo.png" alt="Next Level" style="max-width:100%;"></p>
 
-[![Language](https://img.shields.io/badge/language-swift%205-brightgreen)](https://cocoapods.org/pods/UBottomSheet)
-[![Version](https://img.shields.io/cocoapods/v/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
-[![License](https://img.shields.io/cocoapods/l/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
-[![Platform](https://img.shields.io/cocoapods/p/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
+<p align="center">
+    <a href="https://cocoapods.org/pods/UBottomSheet"><img alt="Language" src="https://img.shields.io/badge/language-swift%205-brightgreen"/></a>
+    <a href="https://cocoapods.org/pods/UBottomSheet"><img alt="Version" src="https://img.shields.io/cocoapods/v/UBottomSheet.svg?style=flat"/></a>
+    <a href="https://cocoapods.org/pods/UBottomSheet"><img alt="Platform" src="https://img.shields.io/cocoapods/p/UBottomSheet.svg?style=flat"/></a>
+        <a href="https://cocoapods.org/pods/UBottomSheet"><img alt="License" src="https://img.shields.io/cocoapods/l/UBottomSheet.svg?style=flat"/></a>
+</p>
 
 |  | Features |
 |:---------:|:---------------------------------------------------------------|
