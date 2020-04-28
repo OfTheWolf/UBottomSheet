@@ -1,9 +1,25 @@
+<p><img src="https://github.com/OfTheWolf/UBottomSheet/blob/master/Logo.png" alt="Next Level" style="max-width:100%;"></p>
+
 # UBottomSheet
 
 [![Language](https://img.shields.io/badge/language-swift%205-brightgreen)](https://cocoapods.org/pods/UBottomSheet)
 [![Version](https://img.shields.io/cocoapods/v/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
 [![License](https://img.shields.io/cocoapods/l/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
 [![Platform](https://img.shields.io/cocoapods/p/UBottomSheet.svg?style=flat)](https://cocoapods.org/pods/UBottomSheet)
+
+|  | Features |
+|:---------:|:---------------------------------------------------------------|
+| &#128205; | Apple Maps bottom sheet behaviour |
+| &#9875;   | Supports panning with UIScrollView and UIView |
+| &#127762; | Allows adding dimmable background view |
+| &#128241; | Set sheet content as UIViewController or UINavigationController |
+| &#128214; | Navigation inside sheet with UINavigationController |
+| &#127752; | Add one to many sheet stop positions|
+| &#127919; | Change sheet position programmatically |
+| &#127744; | Present as many sheet as you want |
+| &#128640; | Move multiple sheets simultaneously or seperately |
+| &#127993; | Rubber banding |
+| &#128075; | Dismiss at bottom |
 
 ## Demo
 
@@ -14,14 +30,12 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-Bottom sheet chiild view controllers must conform to the Draggable protocol.
+Bottom sheet child view controllers must conform to the Draggable protocol.
 
 ```swift
 class MapsDemoBottomSheetController: UIViewController, Draggable{
     @IBOutlet weak var tableView: UITableView!
-    
-    var sheetCoordinator: UBottomSheetCoordinator? 
-  
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +45,10 @@ class MapsDemoBottomSheetController: UIViewController, Draggable{
         tableView.delegate = self
         tableView.dataSource = self
     }
+
+//  MARK: Draggable protocol implementations
+
+    var sheetCoordinator: UBottomSheetCoordinator? 
 
     func draggableView() -> UIScrollView? {
         return tableView
