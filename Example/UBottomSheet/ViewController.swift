@@ -11,6 +11,7 @@ import UBottomSheet
 
 class ViewController: UIViewController {
     var sheetCoordinator: UBottomSheetCoordinator!
+    var backView: PassThroughView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,6 @@ class ViewController: UIViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController
         vc.sheetCoordinator = sheetCoordinator
         sheetCoordinator.addSheet(vc, to: self, didContainerCreate: { container in
-            self.addBackDimmingBackView(below: container)
             let f = self.view.frame
             let rect = CGRect(x: f.minX, y: f.minY, width: f.width, height: f.height)
             container.roundCorners(corners: [.topLeft, .topRight], radius: 10, rect: rect)
@@ -28,42 +28,46 @@ class ViewController: UIViewController {
         sheetCoordinator.setCornerRadius(10)
         
     }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        sheetCoordinator.addDropShadowIfNotExist()
-    }
     
     private func addBackDimmingBackView(below container: UIView){
-        let backView = PassThroughView()
-        self.view.insertSubview(backView, belowSubview: container)
-        backView.translatesAutoresizingMaskIntoConstraints = false
-        backView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        backView.bottomAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true
-        backView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        backView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        backView = PassThroughView()
+        self.view.insertSubview(backView!, belowSubview: container)
+        backView!.translatesAutoresizingMaskIntoConstraints = false
+        backView!.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        backView!.bottomAnchor.constraint(equalTo: container.topAnchor, constant: 10).isActive = true
+        backView!.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        backView!.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
     }
 }
 
 extension ViewController: UBottomSheetCoordinatorDelegate{
+    
+    func bottomSheet(_ container: UIView?, didPresent state: SheetTranslationState) {
+//        self.addBackDimmingBackView(below: container!)
+        self.sheetCoordinator.addDropShadowIfNotExist()
+        self.handleState(state)
+    }
 
     func bottomSheet(_ container: UIView?, didChange state: SheetTranslationState) {
-//        switch state {
-//        case .progressing(_, let percent):
-//            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(max(0.2, percent/100 * 0.8))
-//        case .finished(_, let percent):
-//            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(max(0.2, percent/100 * 0.8))
-//        default:
-//            break
-//        }
+        handleState(state)
     }
 
     func bottomSheet(_ container: UIView?, finishTranslateWith extraAnimation: @escaping ((CGFloat) -> Void) -> Void) {
         extraAnimation({ percent in
-//            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(max(0.2, percent/100 * 0.8))
+            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(percent/100 * 0.8)
         })
     }
     
+    func handleState(_ state: SheetTranslationState){
+        switch state {
+        case .progressing(_, let percent):
+            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(percent/100 * 0.8)
+        case .finished(_, let percent):
+            self.backView?.backgroundColor = UIColor.black.withAlphaComponent(percent/100 * 0.8)
+        default:
+            break
+        }
+    }
 }
 
 extension UIView{

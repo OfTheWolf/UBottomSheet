@@ -25,6 +25,8 @@ public class UBottomSheetCoordinator {
     private var draggables: [DraggableItem] = []
     ///Drop shadow view behind container.
     private var dropShadowView: PassThroughView?
+    /// accept difference equal if in tolerance
+    private var tolerance: CGFloat = 0.0000001
 
     public var availableHeight: CGFloat{
         return parent.view.frame.height
@@ -118,13 +120,12 @@ public class UBottomSheetCoordinator {
         let container = PassThroughView()
         self.container = container
         parent.view.addSubview(container)
-        parent.ub_add(item, in: container, topInset: dataSource.sheetPositions(availableHeight).min()!)
+        let position = dataSource.initialPosition(availableHeight)
+        parent.ub_add(item, in: container, topInset: position){[weak self] in
+            guard let sSelf = self else { return }
+            sSelf.delegate?.bottomSheet(container, didPresent: .finished(position, sSelf.calculatePercent(at: position)))
+        }
         didContainerCreate?(container)
-        container.translatesAutoresizingMaskIntoConstraints = true
-        let y = dataSource.sheetPositions(availableHeight)[0]
-        container.frame = CGRect(x: 0, y: y, width: parent.view.frame.width, height: parent.view.frame.height - y)
-//        container.pinToEdges(to: parent.view)
-//        container.constraint(parent, for: .top)?.constant = dataSource.sheetPositions(availableHeight)[0]
         setPosition(dataSource.initialPosition(availableHeight), animated: false)
     }
     
@@ -138,10 +139,11 @@ public class UBottomSheetCoordinator {
     }
     
     public func addDropShadowIfNotExist(_ config: ((UIView)->Void)? = nil){
-        guard self.dropShadowView == nil else {return}
-        self.dropShadowView = PassThroughView()
+        guard dropShadowView == nil else {return}
+        dropShadowView = PassThroughView()
         parent.view.insertSubview(dropShadowView!, belowSubview: container!)
-        self.dropShadowView?.pinToEdges(to: container!, insets: UIEdgeInsets(top: -container!.frame.minY, left: 0, bottom: 0, right: 0))
+        dropShadowView?.pinToEdges(to: container!, insets: UIEdgeInsets(top: -getInitialFrame().minY, left: 0, bottom: 0, right: 0))
+        
         self.dropShadowView?.layer.masksToBounds = false
         if config == nil{
             applyDefaultShadowParams()
@@ -151,18 +153,33 @@ public class UBottomSheetCoordinator {
         }
     }
     
+    private func getInitialFrame() -> CGRect{
+        let minY = parent.view.bounds.minY + dataSource.initialPosition(availableHeight)
+        return CGRect(x: parent.view.bounds.minX,
+                      y: minY,
+                      width: parent.view.bounds.width,
+                      height: parent.view.bounds.maxY - minY)
+    }
+    
     private func applyDefaultShadowParams(){
-        dropShadowView?.layer.shadowPath = UIBezierPath(roundedRect: container!.frame, cornerRadius: cornerRadius).cgPath
+        dropShadowView?.layer.shadowPath = UIBezierPath(roundedRect: getInitialFrame(), cornerRadius: cornerRadius).cgPath
         dropShadowView?.layer.shadowColor = UIColor.black.cgColor
         dropShadowView?.layer.shadowRadius = CGFloat.init(10)
-        dropShadowView?.layer.shadowOpacity = Float.init(0.5)
+//        dropShadowView?.layer.shadowOpacity = Float.init(0.5)
         dropShadowView?.layer.shadowOffset = CGSize.init(width: 0.0, height: 4.0)
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = 0.0
+        animation.toValue = 0.5
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = .forwards
+        animation.duration = 0.3
+        dropShadowView?.layer.add(animation, forKey: "fadeout")
     }
     
     private func clearShadowBackground(){
         let p = CGMutablePath()
-        p.addRect(parent.view.bounds)
-        p.addPath(UIBezierPath(roundedRect: container!.frame, cornerRadius: cornerRadius).cgPath)
+        p.addRect(parent.view.bounds.insetBy(dx: 0, dy: -availableHeight))
+        p.addPath(UIBezierPath(roundedRect: getInitialFrame(), cornerRadius: cornerRadius).cgPath)
         let mask = CAShapeLayer()
         mask.path = p
         mask.fillRule = .evenOdd
@@ -294,7 +311,7 @@ public class UBottomSheetCoordinator {
         case .changed:
             if let scroll = scrollView{
                 switch dragDirection(vel) {
-                case .up where (container!.frame.minY - minSheetPosition! > 0.001):
+                case .up where (container!.frame.minY - minSheetPosition! > tolerance):
                     translate(dy: dy - lastY)
                     scroll.contentOffset.y = lastContentOffset.y
                 case .down where scroll.contentOffset.y <= 0 && !scroll.isDecelerating:
@@ -303,30 +320,25 @@ public class UBottomSheetCoordinator {
                 default:
                     break
                 }
-//                if vel.y < 0 /*dragging up*/ && (container!.frame.minY - minSheetPosition! > 0.001){
-//                    translate(dy: dy - lastY)
-//                    scroll.contentOffset.y = lastContentOffset.y
-//                }else if vel.y > 0 /*dragging down*/ && scroll.contentOffset.y <= 0 && !scroll.isDecelerating{
-//                    translate(dy: dy - lastY)
-//                    scroll.contentOffset.y = 0
-//                }
             }else{
                 translate(dy: dy)
             }
-        case .ended, .cancelled, .failed:
+        case .ended,
+             .cancelled,
+             .failed:
             if let scroll = scrollView{
                 let minY = container!.frame.minY
                 switch dragDirection(vel) {
-                case .up where minY - minSheetPosition! > 0.001:
+                case .up where minY - minSheetPosition! > tolerance:
                     scroll.setContentOffset(lastContentOffset, animated: false)
-                    self.finishDragging(with: vel)
+                    self.finishDragging(with: vel, position: minY)
                 default:
                     if !isSheetPosition(minY){
-                        self.finishDragging(with: vel)
+                        self.finishDragging(with: vel, position: minY)
                     }
                 }
             }else{
-                self.finishDragging(with: vel)
+                self.finishDragging(with: vel, position: container!.frame.minY + dy)
             }
         default: break
         }
@@ -346,7 +358,7 @@ public class UBottomSheetCoordinator {
      */
     private func isSheetPosition(_ point: CGFloat) -> Bool{
         return dataSource.sheetPositions(availableHeight).first(where: { (p) -> Bool in
-            abs(p - point) < 0.001
+            abs(p - point) < tolerance
         }) != nil
     }
     
@@ -422,13 +434,17 @@ public class UBottomSheetCoordinator {
         let oldFrame = container!.frame
         var newY = oldFrame.minY
         
-        if hasExceededTopLimit(oldFrame.minY + dy, topLimit){
+        if hasExceededTopLimit(oldFrame.minY, topLimit){
             totalTranslationMinY -= dy
+            totalTranslationMaxY = maxSheetPosition!
             newY = dataSource.rubberBandLogicTop(totalTranslationMinY, topLimit)
-        }else if hasExceededBottomLimit(oldFrame.minY + dy, bottomLimit){
+        }else if hasExceededBottomLimit(oldFrame.minY, bottomLimit){
+            totalTranslationMinY = minSheetPosition!
             totalTranslationMaxY += dy
             newY = dataSource.rubberBandLogicBottom(totalTranslationMaxY, bottomLimit)
         }else{
+            totalTranslationMinY = minSheetPosition!
+            totalTranslationMaxY = maxSheetPosition!
             newY += dy
         }
 
@@ -443,10 +459,10 @@ public class UBottomSheetCoordinator {
      Pan gesture finish event
      
      - parameter velocity: Pan gesture velocity
+     - parameter position: new top constraint value
      */
-    private func finishDragging(with velocity: CGPoint){
-        let top = container!.frame.minY
-        let y = filteredPositions(velocity, currentPosition: top).nearest(to: top)
+    private func finishDragging(with velocity: CGPoint, position: CGFloat){
+        let y = filteredPositions(velocity, currentPosition: position).nearest(to: position)
         endTranslate(to: y, animated: true)
     }
     

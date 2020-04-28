@@ -84,6 +84,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C3118AF2458AF9B008F63CC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0CC171412334257C002A02FD /* SimpleTableCell.swift */,
+				0CDF2F68245638C700AAE66E /* EmbeddedCell.swift */,
+				0CDF2F66245638B100AAE66E /* SimpleCollectionCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		0C3118B02458AFAE008F63CC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0CC171422334257C002A02FD /* ViewController.swift */,
+				0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */,
+				0CDF2F6A245647ED00AAE66E /* LabelViewController.swift */,
+				0CDF2F6B245647ED00AAE66E /* LabelViewController.xib */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -109,15 +130,10 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				0CC171422334257C002A02FD /* ViewController.swift */,
-				0CC171412334257C002A02FD /* SimpleTableCell.swift */,
-				0CDF2F68245638C700AAE66E /* EmbeddedCell.swift */,
-				0CDF2F66245638B100AAE66E /* SimpleCollectionCell.swift */,
-				0CA1808B245377CF00C6CBDE /* MapsDemoBottomSheetController.swift */,
+				0C3118AF2458AF9B008F63CC /* Cells */,
+				0C3118B02458AFAE008F63CC /* ViewControllers */,
 				0CC17148233425AA002A02FD /* Images.xcassets */,
 				0CC1714623342585002A02FD /* Main.storyboard */,
-				0CDF2F6A245647ED00AAE66E /* LabelViewController.swift */,
-				0CDF2F6B245647ED00AAE66E /* LabelViewController.xib */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);

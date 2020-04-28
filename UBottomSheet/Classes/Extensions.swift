@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    func ub_add(_ child: UIViewController, in container: UIView, animated: Bool = true, topInset: CGFloat) {
+    func ub_add(_ child: UIViewController, in container: UIView, animated: Bool = true, topInset: CGFloat, completion: (()->Void)? = nil) {
         addChild(child)
         container.addSubview(child.view)
         child.didMove(toParent: self)
@@ -20,10 +20,12 @@ extension UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 container.frame = f
             }) { (_) in
-                self.view.layoutIfNeeded()
+                completion?()
             }
         }else{
-            child.view.pinToEdges(to: container)
+            container.frame = f
+            child.view.frame = container.bounds
+            completion?()
         }
         
     }
