@@ -21,10 +21,11 @@
 | &#127993; | Rubber banding |
 | &#128075; | Dismiss at bottom |
 
-## Demo
+## Demos
 
-![Demo](https://github.com/OfTheWolf/UBottomSheet/blob/master/anim.gif)
-
+| Apple Maps & Childs | Navigation In Sheet | Pull To Dismiss | Multiple Sheet Positions|
+|:---:|:---:|:---:|:---:|
+|![Tag](https://github.com/OfTheWolf/UBottomSheet/blob/master/records/record1.gif)|![Tag](https://github.com/OfTheWolf/UBottomSheet/blob/master/records/record2.gif)|![Tag](https://github.com/OfTheWolf/UBottomSheet/blob/master/records/record3.gif)|![Tag](https://github.com/OfTheWolf/UBottomSheet/blob/master/records/record4.gif)|
 
 ## Example
 
