@@ -17,8 +17,13 @@ public enum SheetTranslationState{
 public class UBottomSheetCoordinator {
     public weak var parent: UIViewController!
     private var container: UIView?
-    private weak var dataSource: UBottomSheetCoordinatorDataSource!
-    private weak var delegate: UBottomSheetCoordinatorDelegate?
+    public weak var dataSource: UBottomSheetCoordinatorDataSource!{
+        didSet{
+            minSheetPosition = dataSource.sheetPositions(availableHeight).min()
+            maxSheetPosition = dataSource.sheetPositions(availableHeight).max()
+        }
+    }
+    public weak var delegate: UBottomSheetCoordinatorDelegate?
     private var minSheetPosition: CGFloat?
     private var maxSheetPosition: CGFloat?
     ///View controllers which conform to Draggable protocol
@@ -27,6 +32,8 @@ public class UBottomSheetCoordinator {
     private var dropShadowView: PassThroughView?
     /// accept difference equal if in tolerance
     private var tolerance: CGFloat = 0.0000001
+    ///set true if sheet view controller is embedded in a UINavigationController
+    public var usesNavigationController: Bool = false
 
     public var availableHeight: CGFloat{
         return parent.view.frame.height
@@ -83,6 +90,7 @@ public class UBottomSheetCoordinator {
      })
      
      ```
+     FIXME: set frame instead of pinToEdges
      
      - parameter config: Called after container created. So you can customize the view, like shadow, corner radius, border, etc.
      */
@@ -112,22 +120,23 @@ public class UBottomSheetCoordinator {
          container.layer.masksToBounds = false
      })
      ```
-     - parameter item: view controller which conforms to the Draggable protocol
+     - parameter item: view controller which conforms to the Draggable or navigation controller which contains draggable view controllers.
      - parameter parent: parent view controller
      - parameter didContainerCreate: triggered when container view created so you can modify the container if needed.
      */
-    public func addSheet(_ item: DraggableItem, to parent: UIViewController, didContainerCreate: ((UIView)->Void)? = nil){
-        let container = PassThroughView()
-        self.container = container
-        parent.view.addSubview(container)
-        let position = dataSource.initialPosition(availableHeight)
-        parent.ub_add(item, in: container, topInset: position){[weak self] in
-            guard let sSelf = self else { return }
-            sSelf.delegate?.bottomSheet(container, didPresent: .finished(position, sSelf.calculatePercent(at: position)))
-        }
-        didContainerCreate?(container)
-        setPosition(dataSource.initialPosition(availableHeight), animated: false)
-    }
+    public func addSheet(_ item: UIViewController, to parent: UIViewController, didContainerCreate: ((UIView)->Void)? = nil){
+         self.usesNavigationController = item is UINavigationController
+         let container = PassThroughView()
+         self.container = container
+         parent.view.addSubview(container)
+         let position = dataSource.initialPosition(availableHeight)
+         parent.ub_add(item, in: container, topInset: position){[weak self] in
+             guard let sSelf = self else { return }
+             sSelf.delegate?.bottomSheet(container, didPresent: .finished(position, sSelf.calculatePercent(at: position)))
+         }
+         didContainerCreate?(container)
+         setPosition(dataSource.initialPosition(availableHeight), animated: false)
+     }
     
     /**
      Adds a new view child controller to the current container view
@@ -135,7 +144,13 @@ public class UBottomSheetCoordinator {
      - parameter item: view controller which conforms to the Draggable protocol
      */
     public func addSheetChild(_ item: DraggableItem){
-        parent?.ub_add(item, in: container!, topInset: dataSource.sheetPositions(availableHeight).min()!)
+        parent.addChild(item)
+        container!.addSubview(item.view)
+        item.didMove(toParent: parent)
+        item.view.frame = container!.bounds.offsetBy(dx: 0, dy: availableHeight)
+        UIView.animate(withDuration: 0.3) {
+            item.view.frame = self.container!.bounds
+        }
     }
     
     public func addDropShadowIfNotExist(_ config: ((UIView)->Void)? = nil){
@@ -223,10 +238,11 @@ public class UBottomSheetCoordinator {
      */
     public func removeSheetChild<T: DraggableItem>(item: T){
         stopTracking(item: item)
+        let _item = usesNavigationController ? item.navigationController! : item
         UIView.animate(withDuration: 0.3, animations: {
-            item.view.frame = item.view.frame.offsetBy(dx: 0, dy: item.view.frame.height)
+            _item.view.frame = _item.view.frame.offsetBy(dx: 0, dy: _item.view.frame.height)
         }) { (finished) in
-            item.ub_remove()
+            _item.ub_remove()
         }
     }
     
@@ -249,6 +265,18 @@ public class UBottomSheetCoordinator {
             }
         }
     }
+    
+    
+    /**
+     Pan gesture recognizer already set up
+     
+     - parameter item: view controller which conforms to the Draggable protocol
+     */
+    private func isTracking<T: DraggableItem>(item: T) -> Bool{
+        return draggables.contains { (vc) -> Bool in
+            vc == item
+        }
+    }
      
     /**
      Add pan gesture recognizer to the view controller.
@@ -256,9 +284,12 @@ public class UBottomSheetCoordinator {
      - parameter item: view controller which conforms to the Draggable protocol
      */
     public func startTracking<T: DraggableItem>(item: T){
+        guard !isTracking(item: item) else {return}
         item.draggableView()?.panGestureRecognizer.addTarget(self, action: #selector(handleScrollPan(_:)))
         let pan = UIPanGestureRecognizer(target: self, action:  #selector(handleViewPan(_:)))
         item.view.addGestureRecognizer(pan)
+        let navBarPan = UIPanGestureRecognizer(target: self, action:  #selector(handleViewPan(_:)))
+        item.navigationController?.navigationBar.addGestureRecognizer(navBarPan)
         draggables.append(item)
     }
     

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="HorizontalCell" customModule="UBottomSheet_Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="186" height="123"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="186" height="123"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="97K-aT-e2f">
+                        <rect key="frame" x="0.0" y="0.0" width="186" height="123"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ada-Fw-N7v">
+                                <rect key="frame" x="61" y="13" width="64" height="64"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.94654323630000003" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ada-Fw-N7v" secondAttribute="height" id="Oe7-RE-gcG"/>
+                                    <constraint firstAttribute="height" constant="64" id="cL6-zM-ssy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" image="plus" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large">
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                    </preferredSymbolConfiguration>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6YM-iv-aev">
+                                <rect key="frame" x="13" y="82" width="160" height="28"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="6YM-iv-aev" secondAttribute="bottom" constant="13" id="Utj-Tm-qGb"/>
+                            <constraint firstItem="6YM-iv-aev" firstAttribute="leading" secondItem="97K-aT-e2f" secondAttribute="leading" constant="13" id="Ygw-ZY-irk"/>
+                            <constraint firstItem="ada-Fw-N7v" firstAttribute="top" secondItem="97K-aT-e2f" secondAttribute="top" constant="13" id="cAU-rT-pyj"/>
+                            <constraint firstItem="6YM-iv-aev" firstAttribute="top" secondItem="ada-Fw-N7v" secondAttribute="bottom" constant="5" id="dMx-1r-Ah8"/>
+                            <constraint firstItem="ada-Fw-N7v" firstAttribute="width" secondItem="ada-Fw-N7v" secondAttribute="height" id="fu2-xj-481"/>
+                            <constraint firstAttribute="trailing" secondItem="6YM-iv-aev" secondAttribute="trailing" constant="13" id="i18-n3-OU2"/>
+                            <constraint firstItem="ada-Fw-N7v" firstAttribute="centerX" secondItem="97K-aT-e2f" secondAttribute="centerX" id="yAq-G5-LnF"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="97K-aT-e2f" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0Ol-Xb-G8B"/>
+                <constraint firstItem="97K-aT-e2f" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="AWJ-F1-5D7"/>
+                <constraint firstAttribute="trailing" secondItem="97K-aT-e2f" secondAttribute="trailing" id="NLq-VM-6de"/>
+                <constraint firstAttribute="bottom" secondItem="97K-aT-e2f" secondAttribute="bottom" id="h74-NP-l8t"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="186" height="123"/>
+            <connections>
+                <outlet property="button" destination="ada-Fw-N7v" id="yMU-T3-OTl"/>
+                <outlet property="lbl" destination="6YM-iv-aev" id="EOy-JM-qzY"/>
+            </connections>
+            <point key="canvasLocation" x="236.23188405797103" y="126.89732142857142"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="plus" catalog="system" width="64" height="56"/>
+    </resources>
+</document>

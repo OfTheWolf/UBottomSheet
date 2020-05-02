@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="137" id="KGk-i7-Jjw" customClass="MapItemCell" customModule="UBottomSheet_Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="551" height="137"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="551" height="137"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="HBa-k3-PRe">
+                        <rect key="frame" x="15" y="49" width="40" height="39"/>
+                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="HBa-k3-PRe" secondAttribute="height" multiplier="1:1" id="TVI-63-knE"/>
+                            <constraint firstAttribute="width" constant="40" id="aoJ-Nx-hxA"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tVx-DF-bnY">
+                        <rect key="frame" x="75" y="20" width="461" height="97"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWH-AW-aqG">
+                                <rect key="frame" x="0.0" y="0.0" width="461" height="48.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aRT-aU-E8O">
+                                <rect key="frame" x="0.0" y="48.5" width="461" height="48.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="HBa-k3-PRe" firstAttribute="width" secondItem="HBa-k3-PRe" secondAttribute="height" multiplier="1:1" id="5G0-HS-pwH"/>
+                    <constraint firstItem="tVx-DF-bnY" firstAttribute="leading" secondItem="HBa-k3-PRe" secondAttribute="trailing" constant="20" id="AL1-gB-Wvu"/>
+                    <constraint firstAttribute="trailing" secondItem="tVx-DF-bnY" secondAttribute="trailing" constant="15" id="JI7-Fq-TxY"/>
+                    <constraint firstItem="tVx-DF-bnY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="Sem-zB-Jus"/>
+                    <constraint firstItem="HBa-k3-PRe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Tax-xx-Um5"/>
+                    <constraint firstItem="HBa-k3-PRe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iQj-IU-Ixt"/>
+                    <constraint firstAttribute="bottom" secondItem="tVx-DF-bnY" secondAttribute="bottom" constant="20" id="wYB-Rm-41X"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="descriptionLabel" destination="aRT-aU-E8O" id="f4Z-ud-heq"/>
+                <outlet property="leftImageView" destination="HBa-k3-PRe" id="og6-kb-q22"/>
+                <outlet property="nameLabel" destination="MWH-AW-aqG" id="Cky-Rv-wUv"/>
+            </connections>
+            <point key="canvasLocation" x="305.07246376811594" y="132.92410714285714"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="mappin.circle.fill" catalog="system" width="64" height="60"/>
+    </resources>
+</document>

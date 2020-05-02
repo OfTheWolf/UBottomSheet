@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppleMapsSheetViewController" customModule="UBottomSheet_Example" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="Djb-nL-qex" id="ioU-30-7W2"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uLB-7J-fkV">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ZvN-4B-1WG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4jJ-Gs-9Ys">
+                                <rect key="frame" x="187" y="4" width="40" height="6"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="3tn-cm-2ok"/>
+                                    <constraint firstAttribute="height" constant="6" id="45L-Q9-fet"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMV-au-nCb">
+                                <rect key="frame" x="0.0" y="6" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Djb-nL-qex">
+                                <rect key="frame" x="0.0" y="62" width="414" height="756"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QMV-au-nCb" secondAttribute="trailing" id="4ct-74-96r"/>
+                            <constraint firstItem="Djb-nL-qex" firstAttribute="leading" secondItem="ZvN-4B-1WG" secondAttribute="leading" id="LHH-Kg-EfO"/>
+                            <constraint firstItem="QMV-au-nCb" firstAttribute="top" secondItem="ZvN-4B-1WG" secondAttribute="top" constant="6" id="TjF-38-RGc"/>
+                            <constraint firstItem="4jJ-Gs-9Ys" firstAttribute="centerX" secondItem="ZvN-4B-1WG" secondAttribute="centerX" id="UXs-be-HFk"/>
+                            <constraint firstItem="4jJ-Gs-9Ys" firstAttribute="top" secondItem="ZvN-4B-1WG" secondAttribute="top" constant="4" id="VGQ-tq-HOt"/>
+                            <constraint firstItem="QMV-au-nCb" firstAttribute="leading" secondItem="ZvN-4B-1WG" secondAttribute="leading" id="aNf-cX-Ltf"/>
+                            <constraint firstAttribute="bottom" secondItem="Djb-nL-qex" secondAttribute="bottom" id="bxt-RA-QvE"/>
+                            <constraint firstItem="Djb-nL-qex" firstAttribute="top" secondItem="QMV-au-nCb" secondAttribute="bottom" id="emC-me-7ev"/>
+                            <constraint firstAttribute="trailing" secondItem="Djb-nL-qex" secondAttribute="trailing" id="gK1-eF-9f4"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="prominent"/>
+                </visualEffectView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uLB-7J-fkV" secondAttribute="trailing" id="7Le-8K-63n"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uLB-7J-fkV" secondAttribute="bottom" id="BVf-1R-T6w"/>
+                <constraint firstItem="uLB-7J-fkV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SCP-BE-sc8"/>
+                <constraint firstItem="uLB-7J-fkV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ZYM-Z2-nxh"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="139" y="103"/>
+        </view>
+    </objects>
+</document>

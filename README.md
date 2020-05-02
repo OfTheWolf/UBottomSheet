@@ -38,12 +38,20 @@ class MapsDemoBottomSheetController: UIViewController, Draggable{
       
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //adds pan gesture recognizer to draggableView()
-        sheetCoordinator?.startTracking(item: self)
-        
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //adds pan gesture recognizer to draggableView()
+        sheetCoordinator?.startTracking(item: self) 
     }
 
 //  MARK: Draggable protocol implementations
