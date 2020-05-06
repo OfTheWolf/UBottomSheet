@@ -290,6 +290,10 @@ public class UBottomSheetCoordinator {
         item.view.addGestureRecognizer(pan)
         let navBarPan = UIPanGestureRecognizer(target: self, action:  #selector(handleViewPan(_:)))
         item.navigationController?.navigationBar.addGestureRecognizer(navBarPan)
+        item.draggableView()?.gestureRecognizers?.forEach({ (recognizer) in
+            pan.require(toFail: recognizer)
+            navBarPan.require(toFail: recognizer)
+        })
         draggables.append(item)
     }
     
