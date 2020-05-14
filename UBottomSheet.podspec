@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'UBottomSheet'
-  s.version          = '1.0.5'
+  s.version          = '1.0.6'
   s.summary          = 'Mimics the iPhone Maps App bottom sheet'
   s.swift_version    = '5.0'
   

@@ -49,6 +49,18 @@ public class UBottomSheetCoordinator {
     /**
      Creates UBottomSheetCoordinator object.
      
+     Calling this in ```viewWillLayoutSubviews``` recommended. So the parent frame will be ready to calculate sheet params. Otherwise sheet may show up with a wrong position and frame.
+     
+     ```
+     override func viewWillLayoutSubviews() {
+         super.viewWillLayoutSubviews()
+         // put your other stuff here
+     
+         guard sheetCoordinator == nil else {return}
+         sheetCoordinator = UBottomSheetCoordinator(parent: self)
+     }
+     ```
+
      - parameter parent: UIViewController
      - parameter delegate: UBottomSheetCoordinatorDelegate
      */
@@ -90,7 +102,6 @@ public class UBottomSheetCoordinator {
      })
      
      ```
-     FIXME: set frame instead of pinToEdges
      
      - parameter config: Called after container created. So you can customize the view, like shadow, corner radius, border, etc.
      */
@@ -153,6 +164,22 @@ public class UBottomSheetCoordinator {
         }
     }
     
+    /**
+     Frame of the sheet when added.
+     */
+    private func getInitialFrame() -> CGRect{
+        let minY = parent.view.bounds.minY + dataSource.initialPosition(availableHeight)
+        return CGRect(x: parent.view.bounds.minX,
+                      y: minY,
+                      width: parent.view.bounds.width,
+                      height: parent.view.bounds.maxY - minY)
+    }
+    
+    /**
+     Adds a drop shadow to the sheet.
+     
+     Use  ```removeDropShadow()``` to remove drop shadow.
+     */
     public func addDropShadowIfNotExist(_ config: ((UIView)->Void)? = nil){
         guard dropShadowView == nil else {return}
         dropShadowView = PassThroughView()
@@ -168,14 +195,16 @@ public class UBottomSheetCoordinator {
         }
     }
     
-    private func getInitialFrame() -> CGRect{
-        let minY = parent.view.bounds.minY + dataSource.initialPosition(availableHeight)
-        return CGRect(x: parent.view.bounds.minX,
-                      y: minY,
-                      width: parent.view.bounds.width,
-                      height: parent.view.bounds.maxY - minY)
+    /**
+     Removes drop shadow added withfunc  ```addDropShadowIfNotExist()```.
+     */
+    public func removeDropShadow(){
+        dropShadowView?.removeFromSuperview()
     }
     
+    /**
+     Applies default drop shadow params. i.e. color, radius, offset...
+     */
     private func applyDefaultShadowParams(){
         dropShadowView?.layer.shadowPath = UIBezierPath(roundedRect: getInitialFrame(), cornerRadius: cornerRadius).cgPath
         dropShadowView?.layer.shadowColor = UIColor.black.cgColor
@@ -191,6 +220,9 @@ public class UBottomSheetCoordinator {
         dropShadowView?.layer.add(animation, forKey: "fadeout")
     }
     
+    /**
+     If you are using UIVisualEffectView or transparent sheet background. You need to cut shadow part which intersects the sheet frame with this.
+     */
     private func clearShadowBackground(){
         let p = CGMutablePath()
         p.addRect(parent.view.bounds.insetBy(dx: 0, dy: -availableHeight))
@@ -262,6 +294,7 @@ public class UBottomSheetCoordinator {
                 sSelf.container!.frame = sSelf.container!.frame.offsetBy(dx: 0, dy:  sSelf.parent.view.frame.height)
             }) {[weak self]  (finished) in
                 self?.container?.removeFromSuperview()
+                self?.removeDropShadow()
             }
         }
     }
@@ -334,30 +367,16 @@ public class UBottomSheetCoordinator {
     private func handlePan(_ recognizer: UIPanGestureRecognizer, scrollView: UIScrollView? = nil){
         let dy = recognizer.translation(in: recognizer.view).y
         let vel = recognizer.velocity(in: recognizer.view)
-
+                
         switch recognizer.state {
         case .began:
-            if let scroll = scrollView{
-                lastContentOffset = scroll.contentOffset
-                lastY = 0
-            }
+            lastY = 0
+            lastContentOffset = scrollView?.contentOffset ?? lastContentOffset
             totalTranslationMinY = minSheetPosition!
             totalTranslationMaxY = maxSheetPosition!
+            translate(with: vel, dy: dy, scrollView: scrollView)
         case .changed:
-            if let scroll = scrollView{
-                switch dragDirection(vel) {
-                case .up where (container!.frame.minY - minSheetPosition! > tolerance):
-                    translate(dy: dy - lastY)
-                    scroll.contentOffset.y = lastContentOffset.y
-                case .down where scroll.contentOffset.y <= 0 && !scroll.isDecelerating:
-                    translate(dy: dy - lastY)
-                    scroll.contentOffset.y = 0
-                default:
-                    break
-                }
-            }else{
-                translate(dy: dy)
-            }
+            translate(with: vel, dy: dy, scrollView: scrollView)
         case .ended,
              .cancelled,
              .failed:
@@ -373,18 +392,38 @@ public class UBottomSheetCoordinator {
                     }
                 }
             }else{
-                self.finishDragging(with: vel, position: container!.frame.minY + dy)
+                self.finishDragging(with: vel, position: container!.frame.minY + dy - lastY)
             }
         default: break
         }
         
+    }
+
+    /**
+     Move view according to the pan gestur recognizer parameters
+     
+     - parameter velocity: draging velocity of scroll view recognizer
+     - parameter dy: change in the y direction of pan gesture realtive to the gesture began position
+     - parameter scrollView: set if scrollView gesture event
+     */
+    func translate(with velocity: CGPoint, dy: CGFloat, scrollView: UIScrollView? = nil){
         if let scroll = scrollView{
-            lastY = dy
+            switch dragDirection(velocity) {
+            case .up where (container!.frame.minY - minSheetPosition! > tolerance):
+                applyTranslation(dy: dy - lastY)
+                scroll.contentOffset.y = lastContentOffset.y
+            case .down where scroll.contentOffset.y <= 0 && !scroll.isDecelerating:
+                applyTranslation(dy: dy - lastY)
+                scroll.contentOffset.y = 0
+            default:
+                break
+            }
             lastContentOffset = scroll.contentOffset
         }else{
-            recognizer.setTranslation(.zero, in: recognizer.view)
+            applyTranslation(dy: dy - lastY)
         }
     }
+    
     
     /**
      Check if current top y position is one of the UBottomSheetCoordinatorDataSource#sheetPositions(availableHeight)
@@ -460,7 +499,8 @@ public class UBottomSheetCoordinator {
      
      - parameter dy: change in the y direction of pan gesture
      */
-    private func translate(dy: CGFloat){
+    private func applyTranslation(dy: CGFloat){
+        lastY += dy
         guard dy != 0 else {return}
 
         let topLimit = minSheetPosition!
@@ -559,7 +599,7 @@ public class UBottomSheetCoordinator {
      - parameter limit: min sheet y position
      */
     private func hasExceededTopLimit(_ constant: CGFloat, _ limit: CGFloat) -> Bool{
-        return constant < limit
+        return (constant - limit) < tolerance
     }
     
     /**

@@ -15,6 +15,13 @@ class MapsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard sheetCoordinator == nil else {return}
         sheetCoordinator = UBottomSheetCoordinator(parent: self,
                                                    delegate: self)
         
@@ -60,7 +67,7 @@ extension MapsViewController: UBottomSheetCoordinatorDelegate{
     
     func handleState(_ state: SheetTranslationState){
         switch state {
-        case .progressing(let _, let percent):
+        case .progressing(_, let percent):
             self.backView?.backgroundColor = UIColor.black.withAlphaComponent(percent/100 * 0.8)
         case .finished(_, let percent):
             self.backView?.backgroundColor = UIColor.black.withAlphaComponent(percent/100 * 0.8)

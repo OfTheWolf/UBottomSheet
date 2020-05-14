@@ -14,7 +14,6 @@ class SimpleViewController: UIViewController {
     
     var sheetVC: DraggableItem!
     var useNavController = false
-    var didLayoutOnce: Bool = false
     var dataSource: UBottomSheetCoordinatorDataSource?
 
     override func viewDidLoad() {
@@ -24,8 +23,7 @@ class SimpleViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        guard !didLayoutOnce else {return}
-        didLayoutOnce = true
+        guard sheetCoordinator == nil else {return}
         sheetCoordinator = UBottomSheetCoordinator(parent: self)
         if dataSource != nil{
             sheetCoordinator.dataSource = dataSource!
