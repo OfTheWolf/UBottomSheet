@@ -14,7 +14,7 @@
 | &#127762; | Allows adding dimmable background view |
 | &#128241; | Set sheet content as UIViewController or UINavigationController |
 | &#128214; | Navigation inside sheet with UINavigationController |
-| &#127752; | Add one to many sheet stop positions|
+| &#127752; | Add one or more sheet stop positions|
 | &#127919; | Change sheet position programmatically |
 | &#127744; | Present as many sheet as you want |
 | &#128640; | Move multiple sheets simultaneously or seperately |
@@ -71,6 +71,7 @@ Create a UBottomSheetCoordinator from the main view controller. Use the UBottomS
 ```swift
 
 // parentViewController: main view controller that presents the bottom sheet
+// call this within viewWillLayoutSubViews to make sure view frame has measured correctly. see example projects. 
 let sheetCoordinator = UBottomSheetCoordinator(parent: parentViewController)
 
 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapsDemoBottomSheetController") as! MapsDemoBottomSheetController

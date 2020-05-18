@@ -371,7 +371,10 @@ public class UBottomSheetCoordinator {
         switch recognizer.state {
         case .began:
             lastY = 0
-            lastContentOffset = scrollView?.contentOffset ?? lastContentOffset
+            if let scroll = scrollView{
+                //set last contentOffset y value by adding 'dy' i.e. pre pan gesture happened.
+                lastContentOffset.y = scroll.contentOffset.y + dy
+            }
             totalTranslationMinY = minSheetPosition!
             totalTranslationMaxY = maxSheetPosition!
             translate(with: vel, dy: dy, scrollView: scrollView)
@@ -412,16 +415,17 @@ public class UBottomSheetCoordinator {
             case .up where (container!.frame.minY - minSheetPosition! > tolerance):
                 applyTranslation(dy: dy - lastY)
                 scroll.contentOffset.y = lastContentOffset.y
-            case .down where scroll.contentOffset.y <= 0 && !scroll.isDecelerating:
+            case .down where scroll.contentOffset.y <= 0 /*&& !scroll.isDecelerating*/:
                 applyTranslation(dy: dy - lastY)
                 scroll.contentOffset.y = 0
+                lastContentOffset = .zero
             default:
                 break
             }
-            lastContentOffset = scroll.contentOffset
         }else{
             applyTranslation(dy: dy - lastY)
         }
+        lastY = dy
     }
     
     
@@ -500,7 +504,6 @@ public class UBottomSheetCoordinator {
      - parameter dy: change in the y direction of pan gesture
      */
     private func applyTranslation(dy: CGFloat){
-        lastY += dy
         guard dy != 0 else {return}
 
         let topLimit = minSheetPosition!
@@ -509,13 +512,15 @@ public class UBottomSheetCoordinator {
         let oldFrame = container!.frame
         var newY = oldFrame.minY
         
-        if hasExceededTopLimit(oldFrame.minY, topLimit){
-            totalTranslationMinY -= dy
+        if hasExceededTopLimit(oldFrame.minY+dy, topLimit){
+            let yy = min(0 , topLimit - oldFrame.minY)
+            totalTranslationMinY -= (dy - yy)
             totalTranslationMaxY = maxSheetPosition!
             newY = dataSource.rubberBandLogicTop(totalTranslationMinY, topLimit)
-        }else if hasExceededBottomLimit(oldFrame.minY, bottomLimit){
+        }else if hasExceededBottomLimit(oldFrame.minY+dy, bottomLimit){
+            let yy = max(0 , bottomLimit - oldFrame.minY)
             totalTranslationMinY = minSheetPosition!
-            totalTranslationMaxY += dy
+            totalTranslationMaxY += (dy - yy)
             newY = dataSource.rubberBandLogicBottom(totalTranslationMaxY, bottomLimit)
         }else{
             totalTranslationMinY = minSheetPosition!
@@ -609,7 +614,7 @@ public class UBottomSheetCoordinator {
      - parameter limit: max sheet y position
      */
     private func hasExceededBottomLimit(_ constant: CGFloat, _ limit: CGFloat) -> Bool{
-        return constant > limit
+        return (constant - limit) > tolerance
     }
     
 }
