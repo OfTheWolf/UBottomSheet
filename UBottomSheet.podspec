@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'UBottomSheet'
-  s.version          = '1.0.7'
+  s.version          = '1.0.8'
   s.summary          = 'Mimics the iPhone Maps App bottom sheet'
   s.swift_version    = '5.0'
   
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'UBottomSheet/Classes/**/*'
+  s.source_files = 'Sources/UBottomSheet/Classes/**/*'
   
   # s.resource_bundles = {
   #   'UBottomSheet' => ['UBottomSheet/Assets/*.png']

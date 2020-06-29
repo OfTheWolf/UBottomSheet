@@ -87,11 +87,18 @@ ios9.0+, Xcode10+
 
 ## Installation
 
-UBottomSheet is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+UBottomSheet is available through [CocoaPods](https://cocoapods.org) and [Swift Package Manager](https://developer.apple.com/documentation/swift_packages).
 
+#### CocoaPods
+Add the following line to your Podfile:
 ```ruby
 pod 'UBottomSheet'
+```
+
+#### SPM
+Add this url in XCode > File > Swift Packages > Add Package Dependency:
+```
+https://github.com/OfTheWolf/UBottomSheet
 ```
 
 ## See Also
