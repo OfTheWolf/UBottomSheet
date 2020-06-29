@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "UBottomSheet",
+    platforms: [.iOS(.v9)],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
@@ -21,8 +22,5 @@ let package = Package(
         .target(
             name: "UBottomSheet",
             dependencies: []),
-        .testTarget(
-            name: "UBottomSheetTests",
-            dependencies: ["UBottomSheet"]),
     ]
 )
