@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'UBottomSheet/Classes/**/*'
+  s.source_files = 'Sources/UBottomSheet/Classes/**/*'
   
   # s.resource_bundles = {
   #   'UBottomSheet' => ['UBottomSheet/Assets/*.png']
