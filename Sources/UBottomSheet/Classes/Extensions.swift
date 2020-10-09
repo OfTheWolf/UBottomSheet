@@ -9,21 +9,28 @@
 import UIKit
 
 extension UIViewController {
-    func ub_add(_ child: UIViewController, in container: UIView, animated: Bool = true, topInset: CGFloat, completion: (()->Void)? = nil) {
+    func ub_add(_ child: UIViewController,
+                in container: UIView,
+                animated: Bool = true,
+                topInset: CGFloat,
+                completion: (() -> Void)? = nil) {
         addChild(child)
         container.addSubview(child.view)
         child.didMove(toParent: self)
-        let f = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: view.frame.maxY - topInset)
-        if animated{
-            container.frame = f.offsetBy(dx: 0, dy: f.height)
+        let frame = CGRect(x: view.frame.minX,
+                           y: view.frame.minY,
+                           width: view.frame.width,
+                           height: view.frame.maxY - topInset)
+        if animated {
+            container.frame = frame.offsetBy(dx: 0, dy: frame.height)
             child.view.frame = container.bounds
             UIView.animate(withDuration: 0.3, animations: {
-                container.frame = f
-            }) { (_) in
+                container.frame = frame
+            }) { _ in
                 completion?()
             }
-        }else{
-            container.frame = f
+        } else {
+            container.frame = frame
             child.view.frame = container.bounds
             completion?()
         }
@@ -38,8 +45,8 @@ extension UIViewController {
 
 }
 
-extension UIView{
-    func pinToEdges(to view: UIView, insets: UIEdgeInsets = .zero){
+extension UIView {
+    func pinToEdges(to view: UIView, insets: UIEdgeInsets = .zero) {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.topAnchor.constraint(equalTo: view.topAnchor, constant: insets.top).isActive = true
         self.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom).isActive = true
@@ -47,15 +54,15 @@ extension UIView{
         self.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right).isActive = true
     }
     
-    func constraint(_ parent: UIViewController, for attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint?{
-        return parent.view.constraints.first(where: { (c) -> Bool in
-             c.firstItem as? UIView == self && c.firstAttribute == attribute
+    func constraint(_ parent: UIViewController, for attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint? {
+        return parent.view.constraints.first(where: { (constraint) -> Bool in
+            constraint.firstItem as? UIView == self && constraint.firstAttribute == attribute
          })
     }
 }
 
-extension Array where Element == CGFloat{
-    func nearest(to x: CGFloat) -> CGFloat{
+extension Array where Element == CGFloat {
+    func nearest(to x: CGFloat) -> CGFloat {
         return self.reduce(self.first!) { abs($1 - x) < abs($0 - x) ? $1 : $0 }
     }
 }

@@ -11,7 +11,7 @@ import UIKit
 ///Data source
 public protocol UBottomSheetCoordinatorDataSource: class {
     ///Gesture end animation
-    var animator: Animatable? {get}
+    var animator: Animatable? { get }
     ///Sheet positions. For example top, middle, bottom y values.
     func sheetPositions(_ availableHeight: CGFloat) -> [CGFloat]
     ///Initial sheet y position.
@@ -33,21 +33,21 @@ public protocol UBottomSheetCoordinatorDataSource: class {
 }
 
 ///Default data source implementation
-extension UBottomSheetCoordinatorDataSource{
-    public func sheetPositions(_ availableHeight: CGFloat) -> [CGFloat]{
-        return [0.2, 0.7].map{$0*availableHeight}
+extension UBottomSheetCoordinatorDataSource {
+    public func sheetPositions(_ availableHeight: CGFloat) -> [CGFloat] {
+        return [0.2, 0.7].map { $0 * availableHeight }
     }
     
     public var animator: Animatable?{
         return DefaultSheetAnimator()
     }
     
-    public func initialPosition(_ availableHeight: CGFloat) -> CGFloat{
-        return availableHeight*0.2
+    public func initialPosition(_ availableHeight: CGFloat) -> CGFloat {
+        return availableHeight * 0.2
     }
     
-    public func rubberBandLogicTop(_ total: CGFloat, _ limit: CGFloat) -> CGFloat{
-        let value = limit * (1 - log10(total/limit))
+    public func rubberBandLogicTop(_ total: CGFloat, _ limit: CGFloat) -> CGFloat {
+        let value = limit * (1 - log10(total / limit))
         guard !value.isNaN, value.isFinite else {
             return total
         }
@@ -55,7 +55,7 @@ extension UBottomSheetCoordinatorDataSource{
     }
     
     public func rubberBandLogicBottom(_ total: CGFloat, _ limit: CGFloat) -> CGFloat {
-        let value = limit * (1 + log10(total/limit))
+        let value = limit * (1 + log10(total / limit))
         guard !value.isNaN, value.isFinite else {
             return total
         }
@@ -65,5 +65,5 @@ extension UBottomSheetCoordinatorDataSource{
 }
 
 ///By default make all the view controller conforms to the UBottomSheetCoordinatorDataSource.
-extension UIViewController: UBottomSheetCoordinatorDataSource{}
+extension UIViewController: UBottomSheetCoordinatorDataSource {}
 
