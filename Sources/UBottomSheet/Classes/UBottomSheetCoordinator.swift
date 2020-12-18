@@ -14,7 +14,7 @@ public enum SheetTranslationState {
     case finished(_ minYPosition: CGFloat, _ percent: CGFloat) //animation end
 }
 
-public class UBottomSheetCoordinator {
+public class UBottomSheetCoordinator: NSObject {
     public weak var parent: UIViewController!
     private var container: UIView?
     public weak var dataSource: UBottomSheetCoordinatorDataSource! {
@@ -65,6 +65,7 @@ public class UBottomSheetCoordinator {
      - parameter delegate: UBottomSheetCoordinatorDelegate
      */
     public init(parent: UIViewController, delegate: UBottomSheetCoordinatorDelegate? = nil) {
+        super.init()
         self.parent = parent
         self.dataSource = parent
         self.delegate = delegate
@@ -337,11 +338,18 @@ public class UBottomSheetCoordinator {
         let pan = UIPanGestureRecognizer(target: self, action:  #selector(handleViewPan(_:)))
         item.view.addGestureRecognizer(pan)
         let navBarPan = UIPanGestureRecognizer(target: self, action:  #selector(handleViewPan(_:)))
+        pan.delegate = self
+        navBarPan.delegate = self
         item.navigationController?.navigationBar.addGestureRecognizer(navBarPan)
-        item.draggableView()?.gestureRecognizers?.forEach({ (recognizer) in
-            pan.require(toFail: recognizer)
-            navBarPan.require(toFail: recognizer)
-        })
+//        item.draggableView()?.gestureRecognizers?.forEach({ (recognizer) in
+//            print("log: ", recognizer.classForCoder, " ", recognizer.isEnabled)
+//            let clazz = recognizer.classForCoder.description()
+//            if (clazz.contains("_UISwipeDismissalGestureRecognizer")
+//                    || !clazz.contains("UIScrollViewPanGestureRecognizer")){
+//                pan.require(toFail: recognizer)
+//                navBarPan.require(toFail: recognizer)
+//            }
+//        })
         draggables.append(item)
     }
     
@@ -644,4 +652,19 @@ public class UBottomSheetCoordinator {
         return (constant - limit) > tolerance
     }
     
+}
+
+// MARK: UIGestureRecognizerDelegate
+
+extension UBottomSheetCoordinator: UIGestureRecognizerDelegate{
+    
+    /// Ignore back view pan gesture recognizers if there is a scrollview and alwaysBounceVertical is set to true.
+    /// See https://github.com/OfTheWolf/UBottomSheet/issues/50
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let scrollView = otherGestureRecognizer.view as? UIScrollView{
+            return scrollView.alwaysBounceVertical
+        }else{
+            return true
+        }
+    }
 }
