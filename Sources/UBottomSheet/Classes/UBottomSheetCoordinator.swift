@@ -494,7 +494,7 @@ public class UBottomSheetCoordinator: NSObject {
      - parameter currentPosition: current top constraint value of container view
      */
     private func filteredPositions(_ velocity: CGPoint, currentPosition: CGFloat) -> [CGFloat] {
-        if velocity.y < 100 { /// dragging up
+        if velocity.y < -100 { /// dragging up
             let data = dataSource.sheetPositions(availableHeight).filter { (p) -> Bool in
                 p < currentPosition
             }
