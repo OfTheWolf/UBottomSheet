@@ -9,7 +9,7 @@
 import UIKit
 
 ///Data source
-public protocol UBottomSheetCoordinatorDataSource: class {
+public protocol UBottomSheetCoordinatorDataSource: AnyObject {
     ///Gesture end animation
     var animator: Animatable? { get }
     ///Sheet positions. For example top, middle, bottom y values.
