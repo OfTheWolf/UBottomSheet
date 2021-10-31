@@ -11,7 +11,7 @@ import UIKit
 extension UIViewController {
     func ub_add(_ child: UIViewController,
                 in container: UIView,
-                animated: Bool = true,
+                animated: Bool,
                 topInset: CGFloat,
                 completion: (() -> Void)? = nil) {
         addChild(child)
