@@ -134,11 +134,13 @@ public class UBottomSheetCoordinator: NSObject {
      ```
      - parameter item: view controller which conforms to the Draggable or navigation controller which contains draggable view controllers.
      - parameter parent: parent view controller
+     - parameter animated: if true, the sheet is being added to the view controller using an animation (default is true).
      - parameter didContainerCreate: triggered when container view created so you can modify the container if needed.
      - parameter completion: called upon the completion of adding item
      */
     public func addSheet(_ item: UIViewController,
                          to parent: UIViewController,
+                         animated: Bool = true,
                          didContainerCreate: ((UIView) -> Void)? = nil,
                          completion: (() -> Void)? = nil) {
          self.usesNavigationController = item is UINavigationController
@@ -146,7 +148,7 @@ public class UBottomSheetCoordinator: NSObject {
          self.container = container
          parent.view.addSubview(container)
          let position = dataSource.initialPosition(availableHeight)
-         parent.ub_add(item, in: container, topInset: position) { [weak self] in
+         parent.ub_add(item, in: container, animated: animated, topInset: position) { [weak self] in
              guard let sSelf = self else {
                 return
              }
