@@ -316,10 +316,12 @@ public class UBottomSheetCoordinator: NSObject {
             return
         }
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            guard let sSelf = self else {
+            guard let sSelf = self,
+                  let container = sSelf.container
+            else {
                 return
             }
-            sSelf.container!.frame = sSelf.container!.frame.offsetBy(dx: 0, dy:  sSelf.parent.view.frame.height)
+            container.frame = container.frame.offsetBy(dx: 0, dy:  sSelf.parent.view.frame.height)
         }) { [weak self ] finished in
             self?.container?.removeFromSuperview()
             self?.removeDropShadow()
