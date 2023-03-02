@@ -62,7 +62,8 @@ extension UIView {
 }
 
 extension Array where Element == CGFloat {
-    func nearest(to x: CGFloat) -> CGFloat {
-        return self.reduce(self.first!) { abs($1 - x) < abs($0 - x) ? $1 : $0 }
+    func nearest(to x: CGFloat) -> CGFloat? {
+        guard let first = first else { return nil }
+        return self.reduce(first) { abs($1 - x) < abs($0 - x) ? $1 : $0 }
     }
 }

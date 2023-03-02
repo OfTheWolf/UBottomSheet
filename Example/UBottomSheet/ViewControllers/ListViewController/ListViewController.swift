@@ -53,7 +53,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MapItemCell", for: indexPath) as! MapItemCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MapItemCell", for: indexPath) as? MapItemCell else {
+            return UITableViewCell()
+        }
         let title: String
         let subtitle: String
         switch indexPath.row {
@@ -76,9 +78,10 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource{
         let vc = LabelViewController()
         switch indexPath.row {
         case 0:
-            let sc = UBottomSheetCoordinator(parent: sheetCoordinator!.parent)
+            guard let sheetCoordinator = sheetCoordinator22 else { return }
+            let sc = UBottomSheetCoordinator(parent: sheetCoordinator.parent)
             vc.sheetCoordinator = sc
-            sc.addSheet(vc, to: sheetCoordinator!.parent)
+            sc.addSheet(vc, to: sheetCoordinator.parent)
         case 1:
             vc.sheetCoordinator = sheetCoordinator
             sheetCoordinator?.addSheetChild(vc)

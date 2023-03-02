@@ -10,9 +10,9 @@ import UIKit
 import UBottomSheet
 
 class SimpleViewController: UIViewController {
-    var sheetCoordinator: UBottomSheetCoordinator!
+    var sheetCoordinator22: UBottomSheetCoordinator?
     
-    var sheetVC: DraggableItem!
+    var sheetVC22: DraggableItem?
     var useNavController = false
     var dataSource: UBottomSheetCoordinatorDataSource?
 
@@ -25,10 +25,10 @@ class SimpleViewController: UIViewController {
         
         guard sheetCoordinator == nil else {return}
         sheetCoordinator = UBottomSheetCoordinator(parent: self)
-        if dataSource != nil{
-            sheetCoordinator.dataSource = dataSource!
+        if let dataSource = dataSource {
+            sheetCoordinator.dataSource = dataSource
         }
-        
+
         let vc: UIViewController
         if useNavController{
             vc = UINavigationController(rootViewController: sheetVC)

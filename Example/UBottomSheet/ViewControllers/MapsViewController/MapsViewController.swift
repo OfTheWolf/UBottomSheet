@@ -10,7 +10,7 @@ import UIKit
 import UBottomSheet
 
 class MapsViewController: UIViewController {
-    var sheetCoordinator: UBottomSheetCoordinator!
+    var sheetCoordinator22: UBottomSheetCoordinator?
     var backView: PassThroughView?
 
     override func viewDidLoad() {
@@ -36,21 +36,21 @@ class MapsViewController: UIViewController {
         
     }
     
-    private func addBackDimmingBackView(below container: UIView){
-        backView = PassThroughView()
-        self.view.insertSubview(backView!, belowSubview: container)
-        backView!.translatesAutoresizingMaskIntoConstraints = false
-        backView!.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        backView!.bottomAnchor.constraint(equalTo: container.topAnchor, constant: 10).isActive = true
-        backView!.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        backView!.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    private func addBackDimmingBackView(below container: UIView) {
+        guard let backView = PassThroughView() else { return }
+        self.view.insertSubview(backView, belowSubview: container)
+        backView.translatesAutoresizingMaskIntoConstraints = false
+        backView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        backView.bottomAnchor.constraint(equalTo: container.topAnchor, constant: 10).isActive = true
+        backView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        backView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
     }
 }
 
-extension MapsViewController: UBottomSheetCoordinatorDelegate{
+extension MapsViewController: UBottomSheetCoordinatorDelegate {
     
     func bottomSheet(_ container: UIView?, didPresent state: SheetTranslationState) {
-//        self.addBackDimmingBackView(below: container!)
+//        self.addBackDimmingBackView(below: container!) // if later uncommented, remove the force unwrap and add a guard let for the container
         self.sheetCoordinator.addDropShadowIfNotExist()
         self.handleState(state)
     }
