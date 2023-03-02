@@ -45,9 +45,10 @@ class EmbeddedCell: UITableViewCell, UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalCell", for: indexPath) as! HorizontalCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalCell", for: indexPath) as? HorizontalCell else {
+            return UICollectionViewCell()
+        }
         cell.configure(with: items[indexPath.item])
         return cell
     }
-
 }
