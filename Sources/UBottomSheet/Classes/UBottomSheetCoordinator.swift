@@ -676,9 +676,7 @@ public class UBottomSheetCoordinator: NSObject {
         let height = max(availableHeight - minSheetPosition, availableHeight - position)
         let frame = CGRect(x: 0, y: position, width: oldFrame.width, height: height)
 
-        guard let container = self.container22,
-              let percentage = self.calculatePercent(at: position)
-        else { return }
+        guard let percentage = self.calculatePercent(at: position) else { return }
         self.delegate?.bottomSheet(container, didChange: .willFinish(position, percentage))
 
         if animated {
@@ -688,14 +686,13 @@ public class UBottomSheetCoordinator: NSObject {
                     guard let percent = self.calculatePercent(at: position) else { return }
                     anim(percent)
                 })
-                container.frame = frame
+                self.container22?.frame = frame
                 self.parent22?.view.layoutIfNeeded()
             }, completion: { finished in
                 if self.lastAnimatedValue != position {
                     return
                 }
-                guard let percent = self.calculatePercent(at: position)
-                else { return }
+                guard let percent = self.calculatePercent(at: position) else { return }
                 self.delegate?.bottomSheet(container, didChange: .finished(position, percent))
                 if position >= availableHeight {
                     self.removeSheet()
