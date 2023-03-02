@@ -9,7 +9,7 @@
 import UIKit
 
 class EmbeddedCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    @IBOutlet weak var collectionView22: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var items: [HorizontalCellViewModel] = []
 

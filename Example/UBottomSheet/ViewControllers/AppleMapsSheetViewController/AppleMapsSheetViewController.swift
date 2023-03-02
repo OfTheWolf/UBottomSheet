@@ -12,7 +12,7 @@ import UBottomSheet
 class AppleMapsSheetViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var sheetCoordinator22: UBottomSheetCoordinator?
+    var sheetCoordinator: UBottomSheetCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,7 +106,7 @@ extension AppleMapsSheetViewController: UITableViewDelegate, UITableViewDataSour
 
         switch indexPath.row {
         case 0:
-            guard let sheetCoordinator = sheetCoordinator22 else { return }
+            guard let sheetCoordinator = sheetCoordinator else { return }
             let sc = UBottomSheetCoordinator(parent: sheetCoordinator.parent)
             vc.sheetCoordinator = sc
             sc.addSheet(vc, to: sheetCoordinator.parent)

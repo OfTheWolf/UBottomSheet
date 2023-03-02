@@ -10,9 +10,9 @@ import UIKit
 import UBottomSheet
 
 class SimpleViewController: UIViewController {
-    var sheetCoordinator22: UBottomSheetCoordinator?
+    var sheetCoordinator: UBottomSheetCoordinator?
     
-    var sheetVC22: DraggableItem?
+    var sheetVC: DraggableItem?
     var useNavController = false
     var dataSource: UBottomSheetCoordinatorDataSource?
 

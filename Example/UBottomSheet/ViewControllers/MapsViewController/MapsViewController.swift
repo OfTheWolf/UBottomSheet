@@ -10,7 +10,7 @@ import UIKit
 import UBottomSheet
 
 class MapsViewController: UIViewController {
-    var sheetCoordinator22: UBottomSheetCoordinator?
+    var sheetCoordinator: UBottomSheetCoordinator?
     var backView: PassThroughView?
 
     override func viewDidLoad() {
