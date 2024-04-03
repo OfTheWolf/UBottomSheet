@@ -172,8 +172,11 @@ public class UBottomSheetCoordinator: NSObject {
         item.didMove(toParent: parent)
         item.view.frame = container!.bounds.offsetBy(dx: 0, dy: availableHeight)
 
-        UIView.animate(withDuration: 0.3) {
-            item.view.frame = self.container!.bounds
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let sSelf = self else {
+               return
+            }
+            item.view.frame = sSelf.container!.bounds
         } completion: { finished in
             completion?(finished)
         }
@@ -610,20 +613,28 @@ public class UBottomSheetCoordinator: NSObject {
 
         if animated {
             self.lastAnimatedValue = position
-            dataSource.animator?.animate(animations: {
-                self.delegate?.bottomSheet(self.container, finishTranslateWith: { (anim) in
-                    anim(self.calculatePercent(at: position))
+            dataSource.animator?.animate(animations: { [weak self] in
+                guard let sSelf = self else {
+                   return
+                }
+
+                sSelf.delegate?.bottomSheet(sSelf.container, finishTranslateWith: { (anim) in
+                    anim(sSelf.calculatePercent(at: position))
                 })
-                self.container!.frame = frame
-                self.parent.view.layoutIfNeeded()
-            }, completion: { finished in
-                if self.lastAnimatedValue != position {
+                sSelf.container!.frame = frame
+                sSelf.parent.view.layoutIfNeeded()
+            }, completion: { [weak self] finished in
+                guard let sSelf = self else {
+                   return
+                }
+
+                if sSelf.lastAnimatedValue != position {
                     return
                 }
-                self.delegate?.bottomSheet(self.container,
-                                           didChange: .finished(position, self.calculatePercent(at: position)))
-                if position >= self.availableHeight {
-                    self.removeSheet()
+                sSelf.delegate?.bottomSheet(sSelf.container,
+                                            didChange: .finished(position, sSelf.calculatePercent(at: position)))
+                if position >= sSelf.availableHeight {
+                    sSelf.removeSheet()
                 }
             })
         } else {
